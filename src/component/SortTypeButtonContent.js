@@ -19,7 +19,7 @@ const SortTypeButtonContent = (props) => {
 
   console.log(type);
 
-  const [TypeChices, setTypeChices] = useState(noSelectedTypeChices);
+  const [TypeChices, setTypeChices] = useState(selectedTypeChices);
   const [render, setRender] = useState(false);
   
   console.log(TypeChices);
@@ -37,131 +37,98 @@ const SortTypeButtonContent = (props) => {
     }
   }, [type]);
 
-
-  const generalGamesFilter = () => {
-    return Games.filter((game) => (
-      TypeChices.every(
-        // (chice) =>a(chice,game) ||
-         game.genres.includes(chice) || game.platform.includes(chice)
-
-      )
-    ))
+  const applay={
+    applyGenre :()=>{
+      return Games.filter((game) => (
+        TypeChices.genres.every( (chice) =>
+           game.genres.includes(chice) 
+        )
+      ))
+    },
+    applyPlatform :()=>{
+      return Games.filter((game) => (
+        TypeChices.platforms.every( (chice) =>
+           game.platform.includes(chice) 
+        )
+      ))
+    },
+    applyAge :()=>{
+      return Games.filter((game) => (
+        TypeChices.ages.every( (chice) =>
+           game.age.includes(chice) 
+        )
+      ))
+    },
   }
 
+  const filterGame = (gameGenreFiltered,gamePlatformFiltered,gameAgeFiltered)=>
+  Games.filter((game)=>
+  gameGenreFiltered.includes(game)
+  &&gamePlatformFiltered.includes(game)
+  &&gameAgeFiltered.includes(game)
+  )
 
-  // const ageFilter = () => {
-  //   return Games.filter((game) => (
-  //     TypeChices.some((chice) => chice[0] == 'age' && chice[1] == (game.age))))
-  // }
-
-  const applyGenre =()=>{
-    if (!TypeChices.genres.includes(item)) {
-      TypeChices.genres.push(item)
-    }else{
-      let filteredChices=TypeChices.genres.filter((chice)=>chice!==item)
-      TypeChices.genres=([...filteredChices]);
-    }
-    console.log(TypeChices.genres);
-    //let filtersGenre = 
-  }
-
-  const applyPlatform =()=>{
-    //let filtersPlatform = 
-  }
-
-  const applyAge =()=>{
-    //let filtersAge
-  }
-
-  const onPressApply = useMemo(() => {////chek git is it worck
+  const onPressApply = useMemo(() => {
     return () => {
-      if (TypeChices.length != 0) {
-        console.log(TypeChices);
 
-        let gameFiltered = generalGamesFilter();
-        // let gameFilteredAge = ageFilter()
-        // let filterResult = [...gameFiltered , ...gameFilteredAge];
-        // for (let index = 0; index < gameFiltered.length; index++) {
-        //   console.log(gameFiltered[index].gameName);
-        // }
-        //filterResult = new Set(filterResult); 
-        setGames([...gameFiltered])
-
-        // if (gameFilteredAge.length > 0 && gameFiltered.length > 0) {
-        //   let gameFilter = gameFiltered.filter(item => gameFilteredAge.includes(item));
-        //   setGames([...gameFilter,])
-        // }
-
-        // if (gameFilteredAge.length > 0 && gameFiltered.length == 0) {
-        //   setGames([...gameFilteredAge,])
-        // }
-
-        // if (gameFilteredAge.length == 0 && gameFiltered.length > 0) {
-        //   setGames([...gameFiltered,])
-        // }
-      }
-      else {
-        setGames([...Games])
-        setTypeChices(noSelectedTypeChices)
-      }
-      setSortTypeButtonShowsModal(false), setSortModalVisible(true), setSelectedTypeChices([...TypeChices])
+      let gameGenreFiltered=applay.applyGenre()
+      let gamePlatformFiltered=applay.applyPlatform()
+      let gameAgeFiltered=applay.applyAge()
+      
+      let filter=filterGame(gameGenreFiltered,gamePlatformFiltered,gameAgeFiltered)
+        
+        setGames([...filter])
+      // if (Object.values(TypeChices).flat().length != 0) {}
+      // else {
+      //   setGames([...Games])
+      //   setTypeChices(noSelectedTypeChices)
+      // }
+      setSortTypeButtonShowsModal(false), setSortModalVisible(true), setSelectedTypeChices({...TypeChices})
     };
   }, [Games, TypeChices, setSelectedTypeChices, setGames, type]);
 
-  const addGenre = (item) => {
-    if (!TypeChices.genres.includes(item)) {
-      TypeChices.genres.push(item)
-    }else{
-      let filteredChices=TypeChices.genres.filter((chice)=>chice!==item)
-      TypeChices.genres=([...filteredChices]);
-    }
-    console.log(TypeChices.genres);
-  }
 
-  const addPlatform = (item) => {
-    if (!TypeChices.platforms.includes(item)) {
-      TypeChices.platforms.push(item)
-    }else{
-      let filteredChices=TypeChices.platforms.filter((chice)=>chice!==item)
-      TypeChices.platforms=([...filteredChices]);
+  const adding={
+    addGenre : (item) => {
+      if (!TypeChices.genres.includes(item)) {
+        TypeChices.genres.push(item)
+      }else{
+        let filteredChices=TypeChices.genres.filter((chice)=>chice!==item)
+        TypeChices.genres=([...filteredChices]);
+      }
+      // console.log(TypeChices.genres);
+    },
+  
+    addPlatform : (item) => {
+      if (!TypeChices.platforms.includes(item)) {
+        TypeChices.platforms.push(item)
+      }else{
+        let filteredChices=TypeChices.platforms.filter((chice)=>chice!==item)
+        TypeChices.platforms=([...filteredChices]);
+      }
+      // console.log(TypeChices.platforms);
+    },
+  
+    addAge : (item) => {
+      if (!TypeChices.ages.includes(item)) {
+        TypeChices.ages.push(item)
+      }else{
+        let filteredChices=TypeChices.ages.filter((chice)=>chice!==item)
+        TypeChices.ages=([...filteredChices]);
+      }
+      // console.log(TypeChices.ages);
     }
-    console.log(TypeChices.platforms);
   }
-
-  const addAge = (item) => {
-    if (!TypeChices.ages.includes(item)) {
-      TypeChices.ages.push(item)
-    }else{
-      let filteredChices=TypeChices.ages.filter((chice)=>chice!==item)
-      TypeChices.ages=([...filteredChices]);
-    }
-    console.log(TypeChices.ages);
-  }
-
   const toggleType = (item) => {
 
     const typeCallBack = {
-      Genre:()=> addGenre(item),
-      platform: ()=> addPlatform(item),
-      age: ()=>  addAge(item)
+      Genre:()=> adding.addGenre(item),
+      platform: ()=> adding.addPlatform(item),
+      age: ()=>  adding.addAge(item)
     }
-    // addGenre(item)
     setRender(!render)
     typeCallBack[type]?.()
-
-
-    // if (TypeChices.some((chice) => chice[0] == 'age' && chice[1] == (item))) {
-    //   setTypeChices(TypeChices.filter((chice) => !(chice[0] == 'age' && chice[1] == (item))))
-    // } 
-    // if (type != 'age' && !TypeChices.includes(item)) {
-    //   setTypeChices([...TypeChices, item])
-    // } 
-    // if (type == 'age' && !(TypeChices.some((chice) => chice[0] == 'age' && chice[1] == (item)))) {
-    //   setTypeChices([...TypeChices, ['age', item]])
-    // }
   };
-
-  console.log(Object.values(TypeChices).flat().includes('E'));
 
 
   return (
@@ -189,7 +156,8 @@ const SortTypeButtonContent = (props) => {
             sections={[
               { hed: 'All games', data: data }]}
             renderSectionHeader={({ section }) => (
-              <TouchableOpacity onPress={() => { setSelectedTypeChices(noSelectedTypeChices), setTypeChices(noSelectedTypeChices) }}>
+              <TouchableOpacity
+               onPress={() => { setSelectedTypeChices(noSelectedTypeChices), setTypeChices(noSelectedTypeChices) }}>
                 <Text>Clear</Text>
               </TouchableOpacity>
             )}

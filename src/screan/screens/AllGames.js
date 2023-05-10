@@ -15,15 +15,15 @@ const AllGames = () => {
   const [type, setType] = useState("")
   const [SortModalVisible, setSortModalVisible] = useState(false)
   const [sortButtonShowsModal, setSortTypeButtonShowsModal] = useState(false);
-  const [selectedTypeChices, setSelectedTypeChices] = useState(noSelectedTypeChices);
   const noSelectedTypeChices ={
     genres:[],
     platforms:[],
     ages:[],
   }
+  const [selectedTypeChices, setSelectedTypeChices] = useState({...noSelectedTypeChices});
 
   const sortData = {
-    reSort: () => { setGames([...Games]), setSelectedTypeChices([]) },////////////////////////
+    reSort: () => { setGames([...Games]), setSelectedTypeChices({...noSelectedTypeChices}) },////////////////////////
 
     sortDataAZ: (Type) => {
       const sortedData = [...games].sort((a, b) => {

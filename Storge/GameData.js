@@ -11,7 +11,7 @@ const Games=
 
          genres:['Sports','Simulation','Battle Royale'],
 
-         age:'E',
+         age:['E'],
 
          platform:['PlayStation','Xbox','PC','Nintendo Switch'],
 
@@ -35,7 +35,7 @@ const Games=
 
          genres:['Action','Shooter'],
 
-         age:'M',
+         age:['M'],
 
          platform:['PlayStation','Xbox','PC'],
 
@@ -58,7 +58,7 @@ const Games=
 
          genres:['Action','Adventure','Shooter'],
 
-         age:'M',
+         age:['M'],
 
          platform:['PlayStation','Xbox','PC'],
 
@@ -81,7 +81,7 @@ const Games=
 
          genres:['Action','Adventure'],
 
-         age:'M',
+         age:['M'],
 
          platform:['PlayStation'],
 
