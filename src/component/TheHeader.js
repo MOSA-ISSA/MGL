@@ -1,16 +1,23 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { globalHW } from '../../Storge/global';
 import TheButton from './TheButton';
+import TheContext from '../../Storge/thisContext';
 
 const TheHeader = (props) => {
  const {textHeader} = props
   const navigation = useNavigation();
+  const {setAdmin,admin} = useContext(TheContext)
+
+  const goBack=()=>{
+      setAdmin(((admin+1)%3))
+      navigation.goBack()
+  }
 
   return (
     <View style={styles.container}>
-        <TheButton buttonName={"<"} buttonNameStyle={styles.title} onPress={()=>{navigation.goBack()}}/>
+        <TheButton buttonName={"<"} buttonNameStyle={styles.title} onPress={()=>goBack()}/>
         <View style={{flexGrow:1,alignItems:'center'}}>
           <Text style={styles.title}>
           {textHeader}

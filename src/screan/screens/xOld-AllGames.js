@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect} from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, FlatList, SectionList, Image, Alert, Modal, Pressable } from 'react-native';
 import { globalHW, globalStyles } from '../../../Storge/global';
-import Card from '../../shared/card';
+import Card from '../../component/card';
 import {useNavigation} from '@react-navigation/native';
 import Games from '../../../Storge/GameData';
 import TheButton from '../../component/TheButton';
@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import AddDoneAnimation from '../../asets/animations/AddDoneAnimation';
 import TheModal from '../../component/TheModal';
 import {age, Genre, platform,} from '../../../Storge/SortChices';
-import GamesCard from '../../shared/GamesCard';
+import GamesCard from '../../component/GamesCard';
 
 
 const AllGames=()=> {

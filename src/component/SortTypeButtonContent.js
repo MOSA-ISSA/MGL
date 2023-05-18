@@ -1,9 +1,11 @@
 import React, { useMemo, useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, SectionList, Image, Pressable, } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, SectionList, Pressable, } from 'react-native';
 import { Genre, age, platform } from '../../Storge/SortChices';
 import Games from '../../Storge/GameData';
 import { globalHW } from '../../Storge/global';
-import TheButton from './TheButton';
+import HedMdal from './SortTypeButtonContentComponent/HedMdal';
+import CleanChoisesView from './SortTypeButtonContentComponent/CleanChoisesView';
+
 
 const SortTypeButtonContent = (props) => {
 
@@ -14,14 +16,13 @@ const SortTypeButtonContent = (props) => {
     setSortModalVisible,
     setSelectedTypeChices,
     setGames,
-    noSelectedTypeChices
+    noSelectedTypeChices,
   } = props
-
-  console.log(type);
 
   const [TypeChices, setTypeChices] = useState(selectedTypeChices);
   const [render, setRender] = useState(false);
-  
+
+  console.log(type);
   console.log(TypeChices);
 
   const data = useMemo(() => {
@@ -37,29 +38,20 @@ const SortTypeButtonContent = (props) => {
     }
   }, [type]);
 
-  const applay={
-    applyGenre :()=>{
+  //onsole.log(TypeChices['ages']);
+
+  const applyFilter = (filterType) => {
+    const filterValues = TypeChices[filterType];
+    if (filterValues && filterValues.length > 0) {
       return Games.filter((game) => (
-        TypeChices.genres.every( (chice) =>
-           game.genres.includes(chice) 
+        TypeChices[filterType]?.every((chice) =>
+          game[filterType]?.includes(chice)
         )
-      ))
-    },
-    applyPlatform :()=>{
-      return Games.filter((game) => (
-        TypeChices.platforms.every( (chice) =>
-           game.platform.includes(chice) 
-        )
-      ))
-    },
-    applyAge :()=>{
-      return Games.filter((game) => (
-        TypeChices.ages.every( (chice) =>
-           game.age.includes(chice) 
-        )
-      ))
-    },
-  }
+      ));
+    } else {
+      return Games;
+    }
+  };
 
   const filterGame = (gameGenreFiltered,gamePlatformFiltered,gameAgeFiltered)=>
   Games.filter((game)=>
@@ -71,22 +63,27 @@ const SortTypeButtonContent = (props) => {
   const onPressApply = useMemo(() => {
     return () => {
 
-      let gameGenreFiltered=applay.applyGenre()
-      let gamePlatformFiltered=applay.applyPlatform()
-      let gameAgeFiltered=applay.applyAge()
+      let gameGenreFiltered=applyFilter('genres')
+      let gamePlatformFiltered=applyFilter('platforms')
+      let gameAgeFiltered=applyFilter('ages')
       
       let filter=filterGame(gameGenreFiltered,gamePlatformFiltered,gameAgeFiltered)
         
-        setGames([...filter])
-      // if (Object.values(TypeChices).flat().length != 0) {}
-      // else {
-      //   setGames([...Games])
-      //   setTypeChices(noSelectedTypeChices)
-      // }
-      setSortTypeButtonShowsModal(false), setSortModalVisible(true), setSelectedTypeChices({...TypeChices})
+      setGames([...filter])
+      setSortTypeButtonShowsModal(false),
+      setSortModalVisible(true),
+      setSelectedTypeChices({...TypeChices})
     };
   }, [Games, TypeChices, setSelectedTypeChices, setGames, type]);
 
+  const addingType = (item,type) => {//////////////////////////////////////////////////////////////////////
+    if (!TypeChices[type]?.includes(item)) {
+      TypeChices[type]?.push(item)
+    }else{
+      let filteredChices=TypeChices[type].filter((chice)=>chice!==item)
+      TypeChices[type]=([...filteredChices]);
+    }
+  }
 
   const adding={
     addGenre : (item) => {
@@ -96,7 +93,6 @@ const SortTypeButtonContent = (props) => {
         let filteredChices=TypeChices.genres.filter((chice)=>chice!==item)
         TypeChices.genres=([...filteredChices]);
       }
-      // console.log(TypeChices.genres);
     },
   
     addPlatform : (item) => {
@@ -106,7 +102,6 @@ const SortTypeButtonContent = (props) => {
         let filteredChices=TypeChices.platforms.filter((chice)=>chice!==item)
         TypeChices.platforms=([...filteredChices]);
       }
-      // console.log(TypeChices.platforms);
     },
   
     addAge : (item) => {
@@ -116,88 +111,95 @@ const SortTypeButtonContent = (props) => {
         let filteredChices=TypeChices.ages.filter((chice)=>chice!==item)
         TypeChices.ages=([...filteredChices]);
       }
-      // console.log(TypeChices.ages);
     }
   }
+
   const toggleType = (item) => {
 
+    // const typeCallBack = {
+    //   Genre:()=> adding.addGenre(item),
+    //   platform: ()=> adding.addPlatform(item),
+    //   age: ()=>  adding.addAge(item)
+    // }
+    // typeCallBack[type]?.()
+
     const typeCallBack = {
-      Genre:()=> adding.addGenre(item),
-      platform: ()=> adding.addPlatform(item),
-      age: ()=>  adding.addAge(item)
+      Genre:'genres',
+      platform:'platforms',
+      age:'ages',
     }
+    addingType(item,typeCallBack[type])
     setRender(!render)
-    typeCallBack[type]?.()
+    
   };
 
+  const closeModal=()=>{
+    setSortTypeButtonShowsModal(false), 
+    setSortModalVisible(true) 
+  }
+
+  const CleanChoises=()=>{ 
+    setSelectedTypeChices(noSelectedTypeChices), 
+    setTypeChices(noSelectedTypeChices) 
+  }
+
+  const RenderChoicses=(item)=>{
+
+    const changeColorOnPress = (item)=>
+    (Object.values(TypeChices).flat().includes(item.type)? '#3eb81d' : '#4545');
+
+    return(
+      <Pressable style={styles.sortModalContent}>
+        <Text style={{ fontSize: 20 }}> {item.type} </Text>
+        <TouchableOpacity
+          style={styles.sortModalButtonChoice}
+          onPress={() => toggleType(item.type)}>
+          <View
+            style={[
+              styles.sortModalButtonChoicePressed,
+              {backgroundColor:changeColorOnPress(item),}
+              ]} />
+        </TouchableOpacity>
+      </Pressable>
+    )
+  }
 
   return (
-    <Pressable style={{ flex: 1, flexDirection: 'column-reverse', }}
-      onPress={() => { setSortTypeButtonShowsModal(false), setSortModalVisible(true) }}>
-      <Pressable style={styles.sortModal}>
+    <Pressable style={styles.Screen}
+      onPress={() =>closeModal()}>
 
+      <Pressable style={styles.sortModal}>
         <View style={styles.content}>
 
-          <View style={styles.sortModalContent} >
-
-            <TouchableOpacity onPress={() => { setSortTypeButtonShowsModal(false), setSortModalVisible(true) }}>
-              <Text style={{ fontSize: 30 }}> {'<'} </Text>
-            </TouchableOpacity>
-            <Text style={styles.title}>{type} :</Text>
-
-            <TheButton buttonName={"Apply"} buttonStyle={styles.ApplyButtonStyle}
-              buttonNameStyle={{ fontSize: 20, }}
-              onPress={() => onPressApply()}
-            />
-
-          </View>
+          <HedMdal 
+            closeModal={closeModal} 
+            onPressApply={onPressApply} 
+            type={type}
+          />
 
           <SectionList
+            stickySectionHeadersEnabled
             sections={[
               { hed: 'All games', data: data }]}
-            renderSectionHeader={({ section }) => (
-              <TouchableOpacity
-               onPress={() => { setSelectedTypeChices(noSelectedTypeChices), setTypeChices(noSelectedTypeChices) }}>
-                <Text>Clear</Text>
-              </TouchableOpacity>
-            )}
-            renderItem={({ item }) => (
-
-              <Pressable style={styles.sortModalContent}>
-                <Text style={{ fontSize: 20 }}> {item.type} </Text>
-                <TouchableOpacity
-                  style={
-                    [styles.sortModalButtonChoice,
-                    { height: globalHW.windowHeight * 0.03, width: globalHW.windowHeight * 0.03, },
-                    ]}
-                  onPress={() => toggleType(item.type)}>
-                  <View
-                    style={{
-                      flex: 1, borderRadius: 100,
-                      backgroundColor:Object.values(TypeChices).flat().includes(item.type)? '#3eb81d' : '#4545',
-                    }} />
-                </TouchableOpacity>
-              </Pressable>
-
-            )}
+            renderSectionHeader={() => <CleanChoisesView CleanChoises={CleanChoises}/>}
+            renderItem={({ item }) => RenderChoicses(item)}
           />
         </View>
-
       </Pressable>
+
     </Pressable>
   )
 }
 
 const styles = StyleSheet.create({
 
+  Screen:{ flex: 1, flexDirection: 'column-reverse', },
+
   sortModal: {
     flex: 0.5, flexDirection: 'column', borderTopRightRadius: 30,
     borderTopLeftRadius: 30, backgroundColor: '#264348', alignItems: 'center',
     justifyContent: 'center', borderWidth: 2, elevation: 10,
   },
-
-  title: { fontSize: 30, fontWeight: '700', paddingBottom: 3 },
-
   content: {
     width: '100%', height: '100%',
     flexDirection: 'column', padding: 10
@@ -212,17 +214,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderStyle: 'dashed'
   },
-  ApplyButtonStyle: {
-    backgroundColor: '#4545',
-    height: 40, width: 60,
-    borderRadius: 10
-  },
   sortModalButtonChoice: {
     marginHorizontal: 4,
     padding: 3,
-    borderRadius: 10,
+    borderRadius: 100,
     opacity: 0.7,
-    backgroundColor: '#586e7b'
+    backgroundColor: '#586e7b',
+    height: globalHW.windowHeight * 0.03, 
+    width: globalHW.windowHeight * 0.03,
+  },
+  sortModalButtonChoicePressed:{
+    flex: 1,
+    borderRadius: 100,
   },
 
 });

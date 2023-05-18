@@ -11,9 +11,9 @@ const Games=
 
          genres:['Sports','Simulation','Battle Royale'],
 
-         age:['E'],
+         ages:['E'],
 
-         platform:['PlayStation','Xbox','PC','Nintendo Switch'],
+         platforms:['PlayStation','Xbox','PC','Nintendo Switch'],
 
          image:'https://th.bing.com/th/id/OIP.CB9KYJbHndll2j6fzqeH5gHaKf?pid=ImgDet&rs=1',
 
@@ -35,9 +35,9 @@ const Games=
 
          genres:['Action','Shooter'],
 
-         age:['M'],
+         ages:['M'],
 
-         platform:['PlayStation','Xbox','PC'],
+         platforms:['PlayStation','Xbox','PC'],
 
          image:'https://th.bing.com/th/id/OIP.WKPZ6ZI0HL4YB3aVjDIxBAHaLH?pid=ImgDet&rs=1',
 
@@ -58,9 +58,9 @@ const Games=
 
          genres:['Action','Adventure','Shooter'],
 
-         age:['M'],
+         ages:['M'],
 
-         platform:['PlayStation','Xbox','PC'],
+         platforms:['PlayStation','Xbox','PC'],
 
          image:'https://th.bing.com/th/id/R.8d511f82a0cbeb53f57bf67f6868e65c?rik=Lzl4pwf6t9PmMQ&pid=ImgRaw&r=0',
          
@@ -81,9 +81,9 @@ const Games=
 
          genres:['Action','Adventure'],
 
-         age:['M'],
+         ages:['M'],
 
-         platform:['PlayStation'],
+         platforms:['PlayStation'],
 
          image:'https://images.wallpapersden.com/image/download/god-of-war-ragnarok-game-logo_bGhlbWiUmZqaraWkpJRsa21lrWloZ2U.jpg',
 

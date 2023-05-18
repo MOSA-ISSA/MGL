@@ -1,7 +1,6 @@
-import React, { useMemo, useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, SectionList, Pressable, } from 'react-native';
-import { globalHW, } from '../../../Storge/global';
-import Games from '../../../Storge/GameData';
+import React, {useState} from 'react';
+import { StyleSheet, View,} from 'react-native';
+import Game from '../../../Storge/GameData';
 import TheModal from '../../component/TheModal';
 import RenderGameCard from '../../component/RenderGameCard';
 import SearchBar from '../../component/SearchBar';
@@ -11,7 +10,8 @@ import SortTypeButtonContent from '../../component/SortTypeButtonContent';
 const AllGames = () => {
   console.log('AllGames');
 
-  const [games, setGames] = useState([...Games])
+  const BackUpGame = [...Game]
+  const [games, setGames] = useState([...Game])
   const [type, setType] = useState("")
   const [SortModalVisible, setSortModalVisible] = useState(false)
   const [sortButtonShowsModal, setSortTypeButtonShowsModal] = useState(false);
@@ -23,7 +23,7 @@ const AllGames = () => {
   const [selectedTypeChices, setSelectedTypeChices] = useState({...noSelectedTypeChices});
 
   const sortData = {
-    reSort: () => { setGames([...Games]), setSelectedTypeChices({...noSelectedTypeChices}) },////////////////////////
+    reSort: () => { setGames([...BackUpGame]), setSelectedTypeChices({...noSelectedTypeChices}) },////////////////////////
 
     sortDataAZ: (Type) => {
       const sortedData = [...games].sort((a, b) => {
@@ -65,7 +65,7 @@ const AllGames = () => {
     },
     sortDataRelease: (Type) => {
 
-      const sortedData = Games.sort((a, b) => {
+      const sortedData = BackUpGame.sort((a, b) => {
         const aDate = new Date(`${a.Release.year}-${a.Release.manth}-${a.Release.day}`);
         const bDate = new Date(`${b.Release.year}-${b.Release.manth}-${b.Release.day}`);
         if (Type === 'low') {
@@ -97,7 +97,7 @@ const AllGames = () => {
     },
     SearchBar: {
       setSortModalVisible,
-      Games: [...Games],
+      Games: [...BackUpGame],
       setGames,
     }
   }//params

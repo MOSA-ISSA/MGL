@@ -5,22 +5,22 @@ import { globalHW, globalImage,} from '../../Storge/global';
 const SearchBar =({setSortModalVisible,Games,setGames})=>{
     const [search, setSearch] = useState("");
 
-    const filteredGames =(search)=>{
-        let gameName = Games.filter((game) =>
-        game.gameName.toLowerCase().includes(search.toLowerCase()))
-        let gameShortName = Games.filter((game) =>
-        game.gameShortName.toLowerCase().includes(search.toLowerCase()))
-        let unique = [...gameName,...gameShortName].filter((game, index) => {
-          return (
-            index ===
-            [...gameName,...gameShortName].findIndex((obj) => {
-              return obj.key === game.key;
-            })
-          );
-        });
-        setSearch(search)
-        setGames([...unique])
-      }
+    const filteredGames = (search) => {
+      const searchLowercase = search.toLowerCase();
+    
+      const filteredByName = Games.filter((game) =>
+        game.gameName.toLowerCase().includes(searchLowercase)
+      );
+    
+      const filteredByShortName = Games.filter((game) =>
+        game.gameShortName.toLowerCase().includes(searchLowercase)
+      );
+    
+      const unique = new Set([...filteredByName, ...filteredByShortName]);
+    
+      setSearch(search);
+      setGames([...unique]);
+    };
 
     return(
       <View style={styles.searchBar}>

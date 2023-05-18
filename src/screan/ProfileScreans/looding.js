@@ -9,7 +9,7 @@ import TheContext from '../../../Storge/thisContext';
 const Loading = props => {
   //AsyncStorage.clear();
 
-  const {User,setUser} = useContext(TheContext)
+  const {User,setAdmin,admin} = useContext(TheContext)
 
   console.log('Loading');
 
@@ -47,12 +47,16 @@ const Loading = props => {
     }
   }
 
+  const renderAll=()=>{
+    setAdmin(((admin+1)%3))
+  }
+
     return (
         <View style={{flex:1, alignItems:'center', justifyContent:'center', backgroundColor:"#199",}}>
           <Animatable.Image source={require('../../asets/images/reloud.png')}
           style={{height:150 ,width:150, borderRadius:100}}
           //onAnimationEnd={restorData}
-          onLoad={restorData}
+          onLoad={()=>[restorData(),renderAll()]}
           animation={"rotate"}
           easing="linear" 
           iterationCount={'infinite'}/>

@@ -1,11 +1,14 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 export default function Card(props) {
   return (
-    <View style={[styles.card,props.style]}>
+    <TouchableOpacity 
+      style={[styles.card,props.style]}
+      onPress={props.onPress}
+    >
         { props.children }
-    </View>
+    </TouchableOpacity>
   );
 }
 

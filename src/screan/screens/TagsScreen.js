@@ -8,15 +8,16 @@ import RenderGameCard from '../../component/RenderGameCard';
 const TagsScreen = props => {
   console.log('TagsScreen');
 
-    const itemSort = props.route.params?props.route.params:0
-    
+  const itemSort = props.route.params || [];
+
     const games= Games.filter((game) =>
     itemSort.SortBy.every((type) => 
-    game.genres.includes(type)||game.platform.includes(type)||
-    game.age.includes(type)||game.Mode.includes(type)||
+    game.genres.includes(type)||game.platforms.includes(type)||
+    game.ages.includes(type)||game.Mode.includes(type)||
     game.Developer==(type)||game.Engine==(type)||
     game.Publisher==(type)
     ))
+
     {/*game.Release.includes(type)*/}
 
     console.log(itemSort.SortBy);
@@ -32,8 +33,6 @@ const TagsScreen = props => {
   );
 }
 
-const styles = StyleSheet.create({
-
-  });
+const styles = StyleSheet.create({});
 
 export default TagsScreen;

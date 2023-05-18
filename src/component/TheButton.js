@@ -1,10 +1,11 @@
 import React from "react"
-import { View, Text, TouchableOpacity, } from 'react-native';
+import {Text, TouchableOpacity, } from 'react-native';
 
 const TheButton = ({buttonName,buttonNameStyle,onPress,buttonStyle,}) => {// need improve
 
     return(
-        <TouchableOpacity style={[{alignItems: 'center',justifyContent:"center"},buttonStyle]} onPress={onPress}>
+        <TouchableOpacity style={[{alignItems: 'center',justifyContent:"center"},buttonStyle]} 
+        onPress={onPress?onPress:null}>
                 <Text style={[{fontSize:30,color:'#fff'},buttonNameStyle]} >
                                     {buttonName}
                 </Text>
