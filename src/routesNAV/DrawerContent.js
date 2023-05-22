@@ -1,4 +1,4 @@
-import React, { useContext,useState } from 'react';
+import React, { useContext,useEffect,useState } from 'react';
 import { View, StyleSheet,} from 'react-native';
 import TheContext from '../../Storge/thisContext';
 import { ScreenNames } from '../../Storge/global';
@@ -59,7 +59,7 @@ export const DrawerContent=(props)=> {
         name:'settings',
         imge:'',
         onPress:()=>{},
-        Show:()=>(<SettingsCardView/>)
+        Show:()=>(<SettingsCardView text={'settings'}/>)
       },
     ]
 
@@ -100,12 +100,19 @@ export const DrawerContent=(props)=> {
     }
   }
 
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     console.log("time out finish");
+  //   }, 10*1000);
+  // },[]) 
+
     return(
         <View style={styles.drawerContent}>
           {/*User*/}
-          <View style={{height:'15%',width: '35%',}}>
+          <View style={styles.user}>
             <UserNav navigate={props.navigation.navigate}/>
           </View>
+
           <View style={styles.line}/>
 
 
@@ -114,11 +121,12 @@ export const DrawerContent=(props)=> {
             <RenderSectionsCard/>
           </View>
 
-        </View> 
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
+    user:{height:'15%',width: '35%',},
     drawerContent: {
       flex:1,
       backgroundColor:'#199',

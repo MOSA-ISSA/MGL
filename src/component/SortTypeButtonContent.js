@@ -85,49 +85,14 @@ const SortTypeButtonContent = (props) => {
     }
   }
 
-  const adding={
-    addGenre : (item) => {
-      if (!TypeChices.genres.includes(item)) {
-        TypeChices.genres.push(item)
-      }else{
-        let filteredChices=TypeChices.genres.filter((chice)=>chice!==item)
-        TypeChices.genres=([...filteredChices]);
-      }
-    },
-  
-    addPlatform : (item) => {
-      if (!TypeChices.platforms.includes(item)) {
-        TypeChices.platforms.push(item)
-      }else{
-        let filteredChices=TypeChices.platforms.filter((chice)=>chice!==item)
-        TypeChices.platforms=([...filteredChices]);
-      }
-    },
-  
-    addAge : (item) => {
-      if (!TypeChices.ages.includes(item)) {
-        TypeChices.ages.push(item)
-      }else{
-        let filteredChices=TypeChices.ages.filter((chice)=>chice!==item)
-        TypeChices.ages=([...filteredChices]);
-      }
-    }
-  }
-
   const toggleType = (item) => {
-
-    // const typeCallBack = {
-    //   Genre:()=> adding.addGenre(item),
-    //   platform: ()=> adding.addPlatform(item),
-    //   age: ()=>  adding.addAge(item)
-    // }
-    // typeCallBack[type]?.()
 
     const typeCallBack = {
       Genre:'genres',
       platform:'platforms',
       age:'ages',
     }
+    
     addingType(item,typeCallBack[type])
     setRender(!render)
     

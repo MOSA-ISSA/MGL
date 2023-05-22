@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState} from 'react';
 
 import TheContext from './thisContext';
@@ -22,7 +21,12 @@ const TheProvider = props => {
     mail : '',
     image :image,
     imageBackground : imageBackground,
-    list:[]
+    list:{
+      played:[],
+      planToPlay:[],
+      playing:[],
+      trash:[],
+    }
   })
 
   const [admin,setAdmin]= useState(0)

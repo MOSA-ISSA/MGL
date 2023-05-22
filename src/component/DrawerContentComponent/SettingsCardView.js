@@ -2,11 +2,11 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Card from '../card';
 
-const SettingsCardView = () => {
+const SettingsCardView = ({text}) => {
     return (
         <View style={{flex:1,justifyContent:'flex-end'}}>
             <Card onPress={()=>{}}>
-                <Text style={styles.SectionText}> settings </Text>
+                <Text style={styles.SectionText}> {text} </Text>
             </Card>
         </View>
     );

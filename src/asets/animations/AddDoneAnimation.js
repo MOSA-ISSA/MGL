@@ -1,8 +1,8 @@
 import LottieView from 'lottie-react-native';
-import React, { useContext} from 'react';
+import React from 'react';
 import {View, StyleSheet} from 'react-native';
 
-const AddDoneAnimation =props=>{
+const AddDoneAnimation =({setModalVisible})=>{
 
     return (
         <View style={{flex:1,alignContent:'center',justifyContent:'center',}}>
@@ -14,7 +14,7 @@ const AddDoneAnimation =props=>{
             resizeMode={'center'}
             //onAnimationLoop={restorData()}
             //onLayout={restorData}
-            onAnimationFinish={()=>props.setModalVisible(false)}
+            onAnimationFinish={()=>setModalVisible(false)}
             //()=>props.navigation.navigate('x')
             />
         </View>

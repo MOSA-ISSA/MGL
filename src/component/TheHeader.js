@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { globalHW } from '../../Storge/global';
 import TheButton from './TheButton';
@@ -15,9 +15,18 @@ const TheHeader = (props) => {
       navigation.goBack()
   }
 
+
+  // useEffect(() => {
+  //   // component did load 
+
+  //   return ()=> {
+  //     //component will unmount
+  //   }
+  // }, [])
+
   return (
     <View style={styles.container}>
-        <TheButton buttonName={"<"} buttonNameStyle={styles.title} onPress={()=>goBack()}/>
+        <TheButton buttonName={"<"} buttonNameStyle={styles.title} buttonStyle={styles.btn} onPress={()=>goBack()}/>
         <View style={{flexGrow:1,alignItems:'center'}}>
           <Text style={styles.title}>
           {textHeader}
@@ -50,7 +59,13 @@ const styles = StyleSheet.create({
   title: {
     color: '#fff',
     fontSize: 24,
+    // borderWidth:1 , 
   },
+  btn:{
+    paddingHorizontal:20, 
+    // borderWidth:1 , 
+    marginLeft: -20
+  }
 });
 
 export default TheHeader;

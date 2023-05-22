@@ -168,7 +168,7 @@ const GameDetails=({ route })=> {
       />
           
       <View style={{flexDirection:'row'}}>
-        <GamesCard item={item}/>
+        <GamesCard item={item} HideUnderCard={true}/>
         <RenderMainInfo/>
         <RenderRatingLinks/>
       </View>

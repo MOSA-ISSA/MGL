@@ -63,6 +63,12 @@ const SignIn =props=>{
                 User.logged=true
                 User.image =image
                 User.imageBackground = imageBackground,
+                User.list={
+                    played:[],
+                    planToPlay:[],
+                    playing:[],
+                    trash:[],
+                  }
 
                 AsyncStorage.setItem(User.name, JSON.stringify(User));
 

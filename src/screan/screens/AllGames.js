@@ -23,7 +23,7 @@ const AllGames = () => {
   const [selectedTypeChices, setSelectedTypeChices] = useState({...noSelectedTypeChices});
 
   const sortData = {
-    reSort: () => { setGames([...BackUpGame]), setSelectedTypeChices({...noSelectedTypeChices}) },////////////////////////
+    reSort: () => { setGames([...BackUpGame]), setSelectedTypeChices({...noSelectedTypeChices}) },
 
     sortDataAZ: (Type) => {
       const sortedData = [...games].sort((a, b) => {
@@ -31,49 +31,61 @@ const AllGames = () => {
         const nameA = a.gameName.toUpperCase();
         const nameB = b.gameName.toUpperCase();
 
-        if (Type == 'A-Z') {
+        const sortAToZ = () => {
           if (nameA < nameB) {
             return -1;
           }
           if (nameA > nameB) {
             return 1;
           }
-        }
-        if (Type == 'Z-A') {
+          return 0;
+        };
+
+        const sortZToA = () => {
           if (nameB < nameA) {
             return -1;
           }
           if (nameB > nameA) {
             return 1;
           }
-        }
-        return 0;
+          return 0;
+        };
+
+        const typeCallBack = {
+          AZ: sortAToZ,
+          ZA: sortZToA,
+        };
+
+        return typeCallBack[Type]?.();
       });
       setGames(sortedData);
     },
+    
     sortDataRating: (Type) => {
       const sortedData = [...games].sort((a, b) => {
-        if (Type === 'low') {
-          return a.rating - b.rating;
-        }
-        if (Type === 'high') {
-          return b.rating - a.rating;
-        }
+
+        const typeCallBack = {
+          low: a.rating - b.rating,
+          high: b.rating - a.rating,
+        };
+
+        return typeCallBack[Type]
       });
       setGames(sortedData);
-      //setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
     },
+    
     sortDataRelease: (Type) => {
 
       const sortedData = BackUpGame.sort((a, b) => {
         const aDate = new Date(`${a.Release.year}-${a.Release.manth}-${a.Release.day}`);
         const bDate = new Date(`${b.Release.year}-${b.Release.manth}-${b.Release.day}`);
-        if (Type === 'low') {
-          return aDate - bDate;
-        }
-        if (Type === 'high') {
-          return bDate - aDate;
-        }
+        
+        const typeCallBack = {
+          low: aDate - bDate,
+          high: bDate - aDate,
+        };
+
+        return typeCallBack[Type]
       });
       setGames(sortedData);
     },

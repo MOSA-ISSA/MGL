@@ -20,8 +20,8 @@ const SortModal =(props)=>{
       const choicses =[
         {
           choice:'Name',
-          onPress1:()=>{sortData.sortDataAZ('A-Z'),setSortModalVisible(false)},
-          onPress2:()=>{sortData.sortDataAZ('Z-A'),setSortModalVisible(false)},
+          onPress1:()=>{sortData.sortDataAZ('AZ'),setSortModalVisible(false)},
+          onPress2:()=>{sortData.sortDataAZ('ZA'),setSortModalVisible(false)},
           text:true
         },
         {
