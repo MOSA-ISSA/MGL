@@ -5,7 +5,7 @@ import { globalHW } from '../../Storge/global';
 import TheButton from './TheButton';
 import TheContext from '../../Storge/thisContext';
 
-const TheHeader = (props) => {
+const TheHeader = (props) => {//teacher/////////////
  const {textHeader} = props
   const navigation = useNavigation();
   const {setAdmin,admin} = useContext(TheContext)

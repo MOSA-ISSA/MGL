@@ -7,6 +7,8 @@ import ShowImg from './modalForUserScrean.js/ShowImg';
 import ImagePicker from 'react-native-image-crop-picker';
 import { TextInput } from 'react-native-gesture-handler';
 import TheHeader from '../../component/TheHeader';
+import {useNavigation} from '@react-navigation/native';
+import { CommonActions } from '@react-navigation/native';
 
 const UserScreen = props => {
   
@@ -21,7 +23,7 @@ const UserScreen = props => {
 
   //BackHandler.addEventListener('hardwareBackPress',handleBackButton)
   
-  
+  const navigation = useNavigation();
   const {User,setU,image,imageBackground} = useContext(TheContext)
   const [onPressUserImg, setOnPressUserImg] = useState(false);
   const [onPressUserBacImg, setOnPressUserBacImg] = useState(false);
@@ -229,8 +231,14 @@ const UserScreen = props => {
       User.mail = '',
       User.image = image,
       User.imageBackground = imageBackground,
-      User.list=[]
-      props.navigation.navigate('LogIn')//cancel < this back
+      User.list={
+        played:[],
+        planToPlay:[],
+        playing:[],
+        trash:[],
+      }
+      navigation.dispatch(
+        CommonActions.navigate('LogIn'))
   }
 
   const ChangingUserNameAndChangingTheKey =async(newName)=>{

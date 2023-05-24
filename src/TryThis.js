@@ -1,37 +1,72 @@
 import React, { useState } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
-import * as Animatable from 'react-native-animatable';
+import { View, TextInput, Button, Alert } from 'react-native';
 
-const TryThis = () => {
-  const [viewMoved, setViewMoved] = useState(false);
+function TryThis() {
+  const [email, setEmail] = useState('');
+  const [verificationCode, setVerificationCode] = useState('');
 
+  const handleSendVerificationCode = () => {
+    // Generate a random verification code
+    const randomCode = Math.floor(1000 + Math.random() * 9000).toString();
+
+    // Send the verification code via email using your backend or email service provider
+    sendVerificationEmail(email, randomCode)
+      .then(() => {
+        // Verification email sent successfully
+        Alert.alert('Verification Code Sent', 'Please check your email for the verification code.');
+      })
+      .catch(error => {
+        // Handle the error
+        Alert.alert('Error', 'Failed to send verification code. Please try again.');
+      });
+  };
+
+  const handleVerify = () => {
+    // Compare the entered verification code with the generated one
+    if (verificationCode === randomCode) {
+      // Code is correct, proceed with email verification
+      Alert.alert('Email Verified', 'Your email has been successfully verified!');
+    } else {
+      // Code is incorrect
+      Alert.alert('Incorrect Verification Code', 'Please enter the correct verification code.');
+    }
+  };
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Animatable.View
-        animation={viewMoved ? 'fadeInUp' : 'fadeIn'}
-        style={{
-          position: 'absolute',
-          top: 0,
-          width: '100%',
-          height: 100,
-          backgroundColor: 'red',
-          justifyContent: 'center',
-          alignItems: 'center',
-          zIndex: 1,
-          transform: [{ translateY: viewMoved ? 0 : 100 }],
-        }}
-      >
-        <Text style={{ color: 'white', fontSize: 24 }}>I'm at the top now!</Text>
-      </Animatable.View>
-      <TouchableOpacity onPress={()=>setViewMoved(!viewMoved)}>
-        <View style={{ padding: 10, backgroundColor: 'blue' }}>
-          <Text style={{ color: 'white', fontSize: 18 }}>Move to Top</Text>
-        </View>
-      </TouchableOpacity>
+    <View>
+      <TextInput
+        placeholder="Enter your email"
+        value={email}
+        onChangeText={text => setEmail(text)}
+      />
+      <Button title="Send Verification Code" onPress={handleSendVerificationCode} />
+
+      <TextInput
+        placeholder="Enter verification code"
+        value={verificationCode}
+        onChangeText={text => setVerificationCode(text)}
+      />
+      <Button title="Verify" onPress={handleVerify} />
     </View>
   );
-};
+}
+
+// Function to send the verification email using your backend or email service provider
+function sendVerificationEmail(email, verificationCode) {
+  // Implement your email sending logic here (e.g., using nodemailer or an email API)
+  return new Promise((resolve, reject) => {
+    // Simulating the email sending process with a timeout
+    setTimeout(() => {
+      const emailSentSuccessfully = true; // Set to false if there's an error
+
+      if (emailSentSuccessfully) {
+        resolve();
+      } else {
+        reject(new Error('Failed to send verification email.'));
+      }
+    }, 2000);
+  });
+}
 
 export default TryThis;
 

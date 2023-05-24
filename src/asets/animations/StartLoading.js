@@ -3,10 +3,13 @@ import React, { useContext} from 'react';
 import {View, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TheContext from '../../../Storge/thisContext';
+import {useNavigation} from '@react-navigation/native';
+import { ScreenNames } from '../../../Storge/global';
 
 const StartLoading = props => {
 
-const {User} = useContext(TheContext)
+  const navigation = useNavigation();
+  const {User} = useContext(TheContext)
 
   console.log('StartLoading');
   // console.log(props.setLoad)
@@ -42,7 +45,7 @@ const {User} = useContext(TheContext)
             resizeMode={'center'}
             //onAnimationLoop={restorData()}
             onLayout={restorData}
-            onAnimationFinish={()=>props.setLoad(false) }
+            onAnimationFinish={()=>navigation.replace(ScreenNames.DrawerNav)}
             //()=>props.navigation.navigate('x')
             />
         </View>

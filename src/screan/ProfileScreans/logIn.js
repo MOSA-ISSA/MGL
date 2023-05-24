@@ -1,21 +1,23 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {View, StyleSheet, Text,TouchableOpacity, TextInput, Button,BackHandler, Alert, Image,} from 'react-native';
+import React, {useContext,useState} from 'react';
+import {View,} from 'react-native';
 import TheContext from '../../../Storge/thisContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TheHeader from '../../component/TheHeader';
 import { ScreenNames } from '../../../Storge/global';
+import LogSignInComponent from '../../component/logSignInComponent/logSignInComponent';
 
 
 const LogIn =props=>{
     console.log('LogIn');
     //AsyncStorage.clear();
 
-    const {User,setUser} = useContext(TheContext)
-    const [userName, setUserName] = useState("");
-    const [password, setPassward] = useState("");
+    const {User,} = useContext(TheContext)
     const [alertCondition, setAlert] = useState("");
     const [foegetPassword, setForget] = useState(0);
-    const [hidePassword, setHidePassword] = useState(true);
+    const user={
+        userName:'',
+        password:'',
+    }
 
     // const checkData = async ()=>{
     //     let users = await AsyncStorage.getAllKeys()
@@ -46,38 +48,37 @@ const LogIn =props=>{
     const handilingLogin=async ()=>{
         let users = await AsyncStorage.getAllKeys()
         console.log(users);
-        if ((users.includes(userName))) {
+        if ((users.includes(user.userName))) {
             //console.log("user name faund");
-
-            let user = await AsyncStorage.getItem(userName);
-            user = JSON.parse(user);
-            //console.log(user.password);
-            if (user.password==password) {
-                //setUser({...user, logged:true})
-                User.name=userName
-                User.password=password
+            let getedUser = await AsyncStorage.getItem(user.userName);
+            getedUser = JSON.parse(getedUser);
+            if (getedUser.password==user.password) {
+                User.name=user.userName
+                User.password=user.password
                 User.logged=true
-                User. mail = user.mail
-                User.image = user.image
-                User.imageBackground = user.imageBackground
-                User.list=user.list
+                User. mail = getedUser.mail
+                User.image = getedUser.image
+                User.imageBackground = getedUser.imageBackground
+                User.list=getedUser.list
                 
                 AsyncStorage.setItem(User.name, JSON.stringify(User));
                 setAlert("")
-                //React.useCallback()
                 props.navigation.navigate(ScreenNames.Loading)
             }else{
                 setForget(foegetPassword+1)
-                //console.log(foegetPassword);
-                setAlert("password is not true")
+                if (user.password.length>7) {
+                    setAlert("password is not true")
+                }else{
+                    setAlert("password length should be at least 8")
+                }
                 if(foegetPassword>5){
-                    setAlert(user.password)
+                    setAlert(getedUser.password)
                 }
             }
         }else{
-            if(userName.includes(" ")){
+            if(user.userName.includes(" ")){
                 setAlert("user should not includes spaces\" \"")
-            }if(userName.length<4){
+            }if(user.userName.length<4){
                 setAlert("user length should be at least 4")
             }
             else{
@@ -94,114 +95,18 @@ const LogIn =props=>{
     return(
         <View style={{flex:1,backgroundColor:"#0d516a"}}>
             <TheHeader textHeader={'MGL'}/>
-            {/* <Header title={"MGL"}/> */}
 
-            <View style={styles.screenStyle}>
+            <LogSignInComponent
+                titleName={'Log In'}
+                alertCondition={alertCondition}
+                LogSignInButton={handilingLogin}
+                user={user}
+                foegetPassword={foegetPassword}
+                handilingfoegetPassword={handilingfoegetPassword}
+            />
 
-                <View style={styles.titleView}>
-                    <Text style={styles.titleStyle}>Log in</Text>
-                </View>
-
-                {/* userNameBox */}
-                <View style={styles.userNameBox}>
-                    <TextInput
-                        onChangeText={setUserName}
-                        value={userName}
-                        placeholder="userName"
-                        style={{fontSize:18,}}
-                        />
-                </View>
-                {/* passwordBox */}
-                <View style={styles.passwordBox}>
-                    <TextInput
-                    onChangeText={setPassward}
-                    value={password}
-                    placeholder="password"
-                    keyboardType="default"
-                    secureTextEntry={hidePassword}
-                    style={{fontSize:18,flexGrow:1}}
-                    onEndEditing={handilingLogin}
-                    />
-                    <TouchableOpacity style={styles.showPasswordButton} onPress={()=>setHidePassword(!hidePassword)}>
-                        <Image style={{height: '100%',width: "100%",}} source={require('../../asets/images/showPasword.png')}/>
-                    </TouchableOpacity>
-                </View>
-                {/* alertCondition */}
-                <Text style={styles.alertStyle}>{alertCondition}</Text>
-                {/* navigate SignIn */}
-                <TouchableOpacity onPress={()=>props.navigation.navigate(ScreenNames.SignIn)}>
-                    <Text style={styles.navStyle}>Sign in...</Text>
-                </TouchableOpacity>
-                {/* foegetPassword */}
-                <TouchableOpacity onPress={handilingfoegetPassword} disabled={foegetPassword<4}>
-                    <Text style={styles.foegetPasswordStyle}>{foegetPassword>3?"foeget Password...":""}</Text>
-                </TouchableOpacity>
-                {/* Log in Button */}
-                <View style={{margin: 20}}>
-                    <Button title="Log in" onPress={handilingLogin} />
-                </View>
-
-            </View>
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    screenStyle:{
-        flex:1,
-        backgroundColor:"#12171f",
-        justifyContent:'space-around',
-    },
-    titleStyle:{
-        fontSize: 30,
-        fontWeight:'600',
-        color:'#00bfff'
-    },
-    alertStyle:{
-        fontSize: 20,
-         marginLeft:20,
-          color:'#c41e3a'
-    },
-    navStyle:{
-        fontSize: 15,
-        marginLeft:20,
-        color:'#1e90ff',
-    },
-    foegetPasswordStyle:{
-        fontSize: 15,
-         marginLeft:20,
-          color:'skyblue'
-    },
-    titleView:{
-        alignItems:'center',
-        marginBottom:40,
-    },
-    userNameBox:{
-        borderWidth:2
-        ,margin:10,
-        paddingLeft: 10,
-        borderColor: '#199',
-        borderRadius:10,
-        backgroundColor:'#296e62'
-    },
-    passwordBox:{
-        borderWidth:2
-        ,margin:10,
-        paddingHorizontal: 10,
-         flexDirection:'row' ,
-         alignItems:'center',
-         justifyContent:'space-between',
-         borderRadius:10,borderColor: '#199',
-         backgroundColor:'#296e62'
-    },
-    showPasswordButton:{
-        height:25,width:25,
-        borderRadius:5,
-        borderWidth:0.9,
-        borderColor:'#199'
-    },
-
-
-})
 
 export default LogIn

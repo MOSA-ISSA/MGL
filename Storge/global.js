@@ -33,6 +33,7 @@ export const globalImage ={
 }
 
 export const ScreenNames ={
+  StartLoading:'StartLoading',
   DrawerNav:'DrawerNav',
   GameDetails:'GameDetails',
   SignIn:'SignIn',
