@@ -1,4 +1,4 @@
-import React, {useContext,useState} from 'react';
+import React, {useContext,useEffect,useState} from 'react';
 import {View,} from 'react-native';
 import TheContext from '../../../Storge/thisContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,13 +11,35 @@ const LogIn =props=>{
     console.log('LogIn');
     //AsyncStorage.clear();
 
+    //I shoud Add log in with mail
+
     const {User,} = useContext(TheContext)
     const [alertCondition, setAlert] = useState("");
     const [foegetPassword, setForget] = useState(0);
-    const user={
-        userName:'',
-        password:'',
-    }
+    const [user,setUser]=useState({
+        userName:['',false],
+        password:['',false],
+    })
+    const [users, setUsers] = useState(false);
+
+    console.log(user.userName[0]);
+
+
+    useEffect(() => {
+        const restorUsers = async () => {
+            try {
+                let users = await AsyncStorage.getAllKeys();
+                // console.log(users)
+                setUsers(users)
+                return
+            } catch (error) {
+                console.error("Error:", error);
+                throw error;
+            }
+        };
+        restorUsers()
+        // console.log(users);
+    }, []);
 
     // const checkData = async ()=>{
     //     let users = await AsyncStorage.getAllKeys()
@@ -46,15 +68,13 @@ const LogIn =props=>{
     //   },[]);//to not go back will change whin add the login to the project
 
     const handilingLogin=async ()=>{
-        let users = await AsyncStorage.getAllKeys()
-        console.log(users);
-        if ((users.includes(user.userName))) {
+        if ((users.includes(user.userName[0]))) {
             //console.log("user name faund");
-            let getedUser = await AsyncStorage.getItem(user.userName);
+            let getedUser = await AsyncStorage.getItem(user.userName[0]);
             getedUser = JSON.parse(getedUser);
-            if (getedUser.password==user.password) {
-                User.name=user.userName
-                User.password=user.password
+            if (getedUser.password==user.password[0]) {
+                User.name=user.userName[0]
+                User.password=user.password[0]
                 User.logged=true
                 User. mail = getedUser.mail
                 User.image = getedUser.image
@@ -66,7 +86,7 @@ const LogIn =props=>{
                 props.navigation.navigate(ScreenNames.Loading)
             }else{
                 setForget(foegetPassword+1)
-                if (user.password.length>7) {
+                if (user.password[0].length>7) {
                     setAlert("password is not true")
                 }else{
                     setAlert("password length should be at least 8")
@@ -76,9 +96,9 @@ const LogIn =props=>{
                 }
             }
         }else{
-            if(user.userName.includes(" ")){
+            if(user.userName[0].includes(" ")){
                 setAlert("user should not includes spaces\" \"")
-            }if(user.userName.length<4){
+            }if(user.userName[0].length<4){
                 setAlert("user length should be at least 4")
             }
             else{
@@ -103,6 +123,7 @@ const LogIn =props=>{
                 user={user}
                 foegetPassword={foegetPassword}
                 handilingfoegetPassword={handilingfoegetPassword}
+                users={users}
             />
 
         </View>

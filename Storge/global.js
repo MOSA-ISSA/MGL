@@ -1,3 +1,5 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect, useState } from 'react';
 import { StyleSheet,Dimensions } from 'react-native';
 
 export const globalStyles = StyleSheet.create({
@@ -45,6 +47,26 @@ export const ScreenNames ={
   UserScreen:'UserScreen',
   LogIn:'LogIn',
 }
+
+// export const GetUsers=()=>{
+//   const [users, setUsers] = useState([]);
+//     useEffect(() => {
+//         const restorUsers = async () => {
+//             try {
+//                 let users = await AsyncStorage.getAllKeys();
+//                 // console.log(users)
+//                 setUsers(users)
+//                 return
+//             } catch (error) {
+//                 console.error("Error:", error);
+//                 throw error;
+//             }
+//         };
+//         restorUsers()
+//         // console.log(users);
+//     }, []);
+//   return users
+// }
 
 // export const images = {
 //   ratings: {

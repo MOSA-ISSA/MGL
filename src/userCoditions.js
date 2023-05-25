@@ -1,37 +1,49 @@
-import React, {useContext, useState} from 'react';
-import TheContext from '../Storge/thisContext';
-
-const UserCondition =(type,value)=>{
-        return(true)
-    // const {User,setUser,image,imageBackground} = useContext(TheContext)
-    // if (User.mail.length==0&&User.name.length==0&&User.password.length==0){
-    //     setAlert('! pleas enter data')
-    //     return(false)
-    // }
-    // if (User.mail.includes(" ")){
-    //     setAlert("mail should not includes spaces\" \"")
-    //     return(false)
-    // }
-    // if (!User.mail("@")){
-    //     setAlert("mail should includes @")
-    //     return(false)
-    // }
-    // if (!User.mail(".com")){
-    //     setAlert("mail should includes .com")
-    //     return(false)
-    // }
-    // if(User.name(" ")){
-    //     setAlert("user should not includes spaces\" \"")
-    //     return(false)
-    // }if(User.name<4){
-    //     setAlert("user length should be at least 4")
-    //     return(false)
-    // }if(User.password<8){
-    //     setAlert("password length should be at least 8")
-    //     return(false)
-    // }
-    // setAlert('')
-    // return(true)
-}
-
-export default UserCondition
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState } from 'react';
+    
+export const mailCondition=(user,onErr)=>{
+      if (user?.mail) {
+          if (user.mail?.[0]?.length !== 0) {
+              if (!user.mail[0].includes(' ')) {
+                  if (user.mail[0]?.includes('@')) {
+                      if (user.mail[0]?.includes('.com')) {
+                        //   onErr('')
+                          return true
+                      }else{onErr?onErr('Mail should include .com'):null} 
+                  }else{onErr?onErr('Mail should include @'):null} 
+              }else{onErr?onErr('Mail should not include spaces'):null} 
+          }else{onErr?onErr('Please enter Mail'):null} 
+          user.mail[1]= false
+      }
+      return false
+    }
+  
+    export const userNameCondition=(user,users,onErr,)=>{
+      if (user?.userName) {
+          if (user.userName?.[0]?.length !== 0) {
+              if (!user.userName[0].includes(' ')) {
+                  if (user.userName[0].length > 3) {
+                      if(!users.includes(user.userName[0])){
+                        // onErr('')
+                        return true
+                      }else{onErr?onErr('Another user with this name already exists'):null} 
+                  }else{onErr?onErr('Username length should be at least 4'):null} 
+              }else{onErr?onErr('Username should not include spaces'):null} 
+          }else{onErr?onErr('Please enter userName'):null}
+          user.userName[1]=false 
+      }
+      return false
+    }
+  
+    export const passwordCondition=(user,onErr)=>{
+      if (user?.password) {
+          if (user.password?.[0]?.password !== 0) {
+              if (user.password[0].length > 7) {
+                    onErr?onErr(''):null
+                  return true
+              }else{onErr?onErr('Password length should be at least 8'):null} 
+          }else{onErr?onErr('Please enter password'):null} 
+          user.password[1]=false
+      }
+      return false
+    }
