@@ -11,7 +11,7 @@ const TheHeader = (props) => {//teacher/////////////
   const {setAdmin,admin} = useContext(TheContext)
 
   const goBack=()=>{
-      setAdmin(((admin+1)%3))
+      // setAdmin(((admin+1)%3))
       navigation.goBack()
   }
 

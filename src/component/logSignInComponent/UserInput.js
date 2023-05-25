@@ -1,20 +1,26 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native';
 
 const UserInput =({user,placeholder,keyboardType,value,type,UserCondition,disabledConditionBox})=>{
     const [Text, setText] = useState(value);
     const [hidePassword, setHidePassword] = useState(true);
-    UserCondition(type)
 
-    //  console.log(type);
+    
+    const onChangeText=(v)=>{
+        setText(v) 
+        user[type][0]=v
+        UserCondition(type)
+    }
+
 
     return(
         <View key={type} style={styles.inputBox}>
             <TextInput
-                onChangeText={(v)=>{setText(v),user[type][0]=v}}
+                // onKeyPress={()=>UserCondition(type)}
+                onChangeText={(v)=>{onChangeText(v)}}
                 value={Text}
                 placeholder={placeholder}
-                keyboardType={keyboardType}
+                keyboardType={keyboardType?keyboardType:'default'}
                 style={styles.textInout}
                 secureTextEntry={placeholder=='password'?hidePassword:false}
             />

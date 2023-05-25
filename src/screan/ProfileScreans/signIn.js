@@ -22,21 +22,24 @@ const SignIn =props=>{
     const [users, setUsers] = useState(false);
 
 
+    const restorUsers = async () => {
+        try {
+            let users = await AsyncStorage.getAllKeys();
+            // console.log(users)
+            setUsers(users)
+            return
+        } catch (error) {
+            console.error("Error:", error);
+            throw error;
+        }
+    };
+
     useEffect(() => {
-        const restorUsers = async () => {
-            try {
-                let users = await AsyncStorage.getAllKeys();
-                // console.log(users)
-                setUsers(users)
-                return
-            } catch (error) {
-                console.error("Error:", error);
-                throw error;
-            }
-        };
+       
         restorUsers()
         console.log(users);
     }, []);
+
     //users.includes(user.userName[0])
       
 
@@ -83,7 +86,7 @@ const SignIn =props=>{
     const userCondition = ()=>{
         user.userName[1]?user.password[1]=passwordCondition(user,setAlert):null
         user.mail[1]?user.userName[1]=userNameCondition(user,users,setAlert,):null
-        !user.mail[1]?user.mail[1]=mailCondition(user,users,setAlert):null
+        !user.mail[1]?user.mail[1]=mailCondition(user,setAlert):null
         return user.userName[1]&&user.mail[1]&&user.password[1]
     }
 

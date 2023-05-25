@@ -3,22 +3,15 @@ import {View, StyleSheet, Text} from 'react-native';
 import TheContext from '../../../Storge/thisContext';
 import TheHeader from '../../component/TheHeader';
 import RenderGameCard from '../../component/RenderGameCard';
-import TheButton from '../../component/TheButton';
 import OptionButton from '../../component/MyListComponent/optionButton';
 
 
-const MyList = props => {
+const MyList = () => {
   console.log('MyList');
 
   const {User} = useContext(TheContext)
   
   const [option,setOption] =useState('playing')
-  const [render,setrender] =useState(false)////////////////////////////////////////////teacher
-
-  useEffect(() => {
-    setrender(false)
-    return 
-  }, []);
 
 
   const RenderOptionsButtons =()=>{
@@ -51,7 +44,7 @@ const MyList = props => {
 
           <RenderOptionsButtons/>
 
-          <RenderGameCard games={User.list[option]} needToRender={setrender}/>
+          <RenderGameCard games={User.list[option]}/>
 
       </View>
   );

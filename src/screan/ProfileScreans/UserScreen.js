@@ -9,6 +9,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import TheHeader from '../../component/TheHeader';
 import {useNavigation} from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/native';
+import InfoInput from '../../component/UserScreenComponent/UserScreenInfo';
 
 const UserScreen = props => {
   
@@ -349,6 +350,34 @@ const UserScreen = props => {
     )
   }//xxxxx
 
+  const RenderInfoInput =()=>{
+    const inputsParams =[
+      {
+        keyboardType:"@gmail.com",
+        placeholder:"email-address",
+        type:'mail',
+        value:User.mail,
+      },
+      {
+        keyboardType:"default",
+        placeholder:"userName",
+        type:'userName',
+        value:User.userName,
+      },
+      {
+          keyboardType:"default",
+          placeholder:"password",
+          type:'password',
+          value:User.password,
+      }
+    ]
+    return(
+      inputsParams.map((params,i)=>
+                params?<UserInput key={params.type} user={user} UserCondition={userCondition} disabledConditionBox={titleName=='Log In'} {...params}/>:null
+            )
+        )
+  }
+
 
   {/*/////////////////// View ///////////////////*/}
   return (
@@ -362,6 +391,8 @@ const UserScreen = props => {
           renderItem={({ item }) => (
           
             <View style={{flex:1,padding:10}}> 
+
+            <InfoInput/>
 
               <Text style={styles.subTitle}>Info:</Text>
               {/* Info */}

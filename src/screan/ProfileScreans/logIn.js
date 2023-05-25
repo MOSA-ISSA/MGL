@@ -16,10 +16,12 @@ const LogIn =props=>{
     const {User,} = useContext(TheContext)
     const [alertCondition, setAlert] = useState("");
     const [foegetPassword, setForget] = useState(0);
+    
     const [user,setUser]=useState({
         userName:['',false],
         password:['',false],
     })
+    
     const [users, setUsers] = useState(false);
 
     console.log(user.userName[0]);
