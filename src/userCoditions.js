@@ -7,7 +7,7 @@ import React, { useState } from 'react';
             if (reg.test(user.mail.text) === false) {
                 // console.log("Email is Not Correct");
                 onErr?onErr('Email is Not Correct'):null
-                user.mailvalidation==false
+                user.mail.validation==false
                 return false;
             }else {
                 // console.log("Email is Correct");

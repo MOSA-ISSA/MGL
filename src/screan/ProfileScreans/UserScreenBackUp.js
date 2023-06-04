@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 //import User from './data';
 import Header from '../../components/Header';
 import TheContext from '../../../Storge/thisContext';
-import ShowImg from './modalForUserScrean.js/ShowImg';
+import ShowImg from '../../component/UserScreenComponent/ShowImg';
 import ImagePicker from 'react-native-image-crop-picker';
 import { TextInput } from 'react-native-gesture-handler';
 
