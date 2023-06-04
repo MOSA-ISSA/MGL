@@ -15,9 +15,9 @@ const SignIn =props=>{
     const {User,image,imageBackground} = useContext(TheContext)
     const [alertCondition, setAlert] = useState("");
     const [user,setUser]=useState({
-        mail:['',false],
-        userName:['',false],
-        password:['',false],
+        mail:{text:'',validation:false},
+        userName:{text:'',validation:false},
+        userPassword:{text:'',validation:false},
     })
     const [users, setUsers] = useState(false);
 
@@ -84,17 +84,17 @@ const SignIn =props=>{
     // };
     
     const userCondition = ()=>{
-        user.userName[1]?user.password[1]=passwordCondition(user,setAlert):null
-        user.mail[1]?user.userName[1]=userNameCondition(user,users,setAlert,):null
-        !user.mail[1]?user.mail[1]=mailCondition(user,setAlert):null
-        return user.userName[1]&&user.mail[1]&&user.password[1]
+        user.userName.validation?user.userPassword.validation=passwordCondition(user,setAlert):null
+        user.mail.validation?user.userName.validation=userNameCondition(user,users,setAlert,):null
+        !user.mail.validation?user.mail.validation=mailCondition(user,setAlert):null
+        return user.userName.validation&&user.mail.validation&&user.userPassword.validation
     }
 
     const signIn = () => {//set data and log in
         if (userCondition()) {
-            User.mail=user.mail[0]
-            User.name=user.userName[0]
-            User.password=user.password[0]
+            User.mail=user.mail.text
+            User.name=user.userName.text
+            User.password=user.userPassword.text
             User.logged=true
             User.image =image
             User.imageBackground = imageBackground

@@ -9,37 +9,41 @@ import LogSignInComponent from '../../component/logSignInComponent/logSignInComp
 
 const LogIn =props=>{
     console.log('LogIn');
-    //AsyncStorage.clear();
+    // AsyncStorage.clear();
 
     //I shoud Add log in with mail
 
     const {User,} = useContext(TheContext)
     const [alertCondition, setAlert] = useState("");
     const [foegetPassword, setForget] = useState(0);
-    
+
     const [user,setUser]=useState({
-        userName:['',false],
-        password:['',false],
+        userName:{text:'',validation:false},
+        userPassword:{text:'',validation:false},
     })
-    
+
     const [users, setUsers] = useState(false);
 
-    console.log(user.userName[0]);
-
+    const restorUsers = async () => {
+        try {
+            let users = await AsyncStorage.getAllKeys();
+            console.log(users)
+            setUsers(users)
+            return
+        } catch (error) {
+            console.error("Error:", error);
+            throw error;
+        }
+    };
 
     useEffect(() => {
-        const restorUsers = async () => {
-            try {
-                let users = await AsyncStorage.getAllKeys();
-                // console.log(users)
-                setUsers(users)
-                return
-            } catch (error) {
-                console.error("Error:", error);
-                throw error;
-            }
-        };
         restorUsers()
+        setAlert('')
+        setForget(0)
+        setUser({
+            userName:{text:'',validation:false},
+            userPassword:{text:'',validation:false},
+        })
         // console.log(users);
     }, []);
 
@@ -70,13 +74,13 @@ const LogIn =props=>{
     //   },[]);//to not go back will change whin add the login to the project
 
     const handilingLogin=async ()=>{
-        if ((users.includes(user.userName[0]))) {
-            //console.log("user name faund");
-            let getedUser = await AsyncStorage.getItem(user.userName[0]);
+        if ((users.includes(user.userName.text))) {
+            // console.log("user name faund");
+            let getedUser = await AsyncStorage.getItem(user.userName.text);
             getedUser = JSON.parse(getedUser);
-            if (getedUser.password==user.password[0]) {
-                User.name=user.userName[0]
-                User.password=user.password[0]
+            if (getedUser.password==user.userPassword.text) {
+                User.name=user.userName.text
+                User.password=user.userPassword.text
                 User.logged=true
                 User. mail = getedUser.mail
                 User.image = getedUser.image
@@ -88,7 +92,7 @@ const LogIn =props=>{
                 props.navigation.navigate(ScreenNames.Loading)
             }else{
                 setForget(foegetPassword+1)
-                if (user.password[0].length>7) {
+                if (user.userPassword.text.length>7) {
                     setAlert("password is not true")
                 }else{
                     setAlert("password length should be at least 8")
@@ -98,9 +102,9 @@ const LogIn =props=>{
                 }
             }
         }else{
-            if(user.userName[0].includes(" ")){
+            if(user.userName.text.includes(" ")){
                 setAlert("user should not includes spaces\" \"")
-            }if(user.userName[0].length<4){
+            }if(user.userName.text.length<4){
                 setAlert("user length should be at least 4")
             }
             else{

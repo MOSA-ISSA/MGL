@@ -11,7 +11,7 @@ import SignIn from './src/screan/ProfileScreans/signIn';
 import UserScreen from './src/screan/ProfileScreans/UserScreen';
 import TheProvider from './Storge/thisProvider';
 import TheContext from './Storge/thisContext';
-import Loading from './src/screan/ProfileScreans/looding';
+import Loading from './src/screan/ProfileScreans/Loading';
 import TryThis from './src/TryThis';
 
 const Drawer = createDrawerNavigator();

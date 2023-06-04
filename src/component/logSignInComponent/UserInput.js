@@ -5,10 +5,12 @@ const UserInput =({user,placeholder,keyboardType,value,type,UserCondition,disabl
     const [Text, setText] = useState(value);
     const [hidePassword, setHidePassword] = useState(true);
 
+    // console.log("user  "+user?.[type].validation);
+    // user?.[type]?console.log(user[type].text):null
     
     const onChangeText=(v)=>{
         setText(v) 
-        user[type][0]=v
+        user[type]['text']=v
         UserCondition(type)
     }
 
@@ -16,7 +18,6 @@ const UserInput =({user,placeholder,keyboardType,value,type,UserCondition,disabl
     return(
         <View key={type} style={styles.inputBox}>
             <TextInput
-                // onKeyPress={()=>UserCondition(type)}
                 onChangeText={(v)=>{onChangeText(v)}}
                 value={Text}
                 placeholder={placeholder}
@@ -26,7 +27,7 @@ const UserInput =({user,placeholder,keyboardType,value,type,UserCondition,disabl
             />
                 {!disabledConditionBox?
                 <View style={styles.showPasswordButton}>
-                            <Image style={styles.img} source={user[type][1]?require('../../asets/images/Done.png'):require('../../asets/images/X.png')}/>         
+                            <Image style={styles.img} source={user[type].validation?require('../../asets/images/Done.png'):require('../../asets/images/X.png')}/>         
                 </View>:null
                 }
 

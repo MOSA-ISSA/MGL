@@ -10,6 +10,7 @@ import TheHeader from '../../component/TheHeader';
 import {useNavigation} from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/native';
 import InfoInput from '../../component/UserScreenComponent/UserScreenInfo';
+import { ScreenNames } from '../../../Storge/global';
 
 const UserScreen = props => {
   
@@ -239,7 +240,11 @@ const UserScreen = props => {
         trash:[],
       }
       navigation.dispatch(
-        CommonActions.navigate('LogIn'))
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: ScreenNames.Loading }]
+        })
+      )
   }
 
   const ChangingUserNameAndChangingTheKey =async(newName)=>{
@@ -353,8 +358,8 @@ const UserScreen = props => {
   const RenderInfoInput =()=>{
     const inputsParams =[
       {
-        keyboardType:"@gmail.com",
-        placeholder:"email-address",
+        keyboardType:"email-address",
+        placeholder:"mail",
         type:'mail',
         value:User.mail,
       },

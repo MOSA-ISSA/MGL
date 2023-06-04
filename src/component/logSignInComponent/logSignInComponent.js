@@ -20,34 +20,41 @@ const LogSignInComponent = (
         users,
     }) => {
         
-        const userCondition = (type) => {
-            // console.log(type);
-            type=='mail'?user.mail[1]=mailCondition(user):null
-            type=='userName'?user.userName[1]=userNameCondition(user,users):null
-            type=='password'?user.password[1]=passwordCondition(user):null
-        }
-        // console.log(user);
+    const userCondition = (type) => {
+        type=='mail'?user.mail.validation=mailCondition(user):null
+        type=='userName'?user.userName.validation=userNameCondition(user,users):null
+        type=='userPassword'?user.userPassword.validation=passwordCondition(user):null
+    }
+
+    const params={
+         mailParams: 
+         titleName=='Sign In'?{
+            keyboardType:"email-address",
+            placeholder:"mail",
+            type:'mail',
+            value:user.mail.text,
+        }:null,
+        userNameParams: 
+        {
+            keyboardType:"default",
+            placeholder:"userName",
+            type:'userName',
+            value:user.userName.text,
+       },
+       userPasswordParams: 
+       {
+            keyboardType:"default",
+            placeholder:"password",
+            type:'userPassword',
+            value:user.userPassword.text,
+      },
+    }
 
     const RenderInputText=()=>{
         const inputsParams=[
-            titleName=='Sign In'?{
-                keyboardType:"email-address",
-                placeholder:"email-address",
-                type:'mail',
-                value:user.mail[0],
-            }:null,
-            {
-                keyboardType:"default",
-                placeholder:"userName",
-                type:'userName',
-                value:user.userName[0],
-            },
-            {
-                keyboardType:"default",
-                placeholder:"password",
-                type:'password',
-                value:user.password[0],
-            },
+            params.mailParams,
+            params.userNameParams,
+            params.userPasswordParams,
         ]
         return(
             inputsParams.map((params,i)=>
@@ -56,7 +63,8 @@ const LogSignInComponent = (
                     user={user} 
                     UserCondition={userCondition} 
                     disabledConditionBox={titleName=='Log In'} 
-                    {...params}/>:null
+                    {...params}
+                />:null
             )
         )
     }

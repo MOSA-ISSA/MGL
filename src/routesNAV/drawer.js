@@ -1,7 +1,7 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { DrawerContent } from './DrawerContent';
 import AllGames from '../screan/screens/AllGames';
-import Loading from '../screan/ProfileScreans/looding';
+import Loading from '../screan/ProfileScreans/Loading';
 import UserScreen from '../screan/ProfileScreans/UserScreen';
 import LogIn from '../screan/ProfileScreans/logIn';
 import { ScreenNames } from '../../Storge/global';

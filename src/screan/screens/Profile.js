@@ -1,7 +1,7 @@
 import React from 'react';
 import {View,} from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Loading from '../ProfileScreans/looding';
+import Loading from '../ProfileScreans/Loading';
 import UserScreen from '../ProfileScreans/UserScreen';
 import LogIn from '../ProfileScreans/logIn';
 import SignIn from '../ProfileScreans/signIn';
