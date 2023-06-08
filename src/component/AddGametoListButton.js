@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import YouShoudLogIn from './YouShoudLogIn';
 import AddDoneAnimation from '../asets/animations/AddDoneAnimation';
 
-const AddGametoListButton = ({ item, buttonStyle, buttonNameStyle, needToRender }) => {
+const AddGametoListButton = ({ item, buttonStyle, buttonNameStyle,}) => {
 
   const navigation = useNavigation();
 
@@ -92,9 +92,6 @@ const AddGametoListButton = ({ item, buttonStyle, buttonNameStyle, needToRender 
       // setModalVisible(false)
       console.log('aded + ' + item.gameName);
       setAnimationVisible(true)
-      if (needToRender) {
-        needToRender(true)
-      }
     }
     const pressedButton = (option) => (
       {

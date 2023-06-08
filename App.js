@@ -16,8 +16,8 @@ const App=()=> {
         <NavigationContainer >
           
             {/* <DrawerNav/> */}
-            <StackNav/>
-            {/* <TryThis/> */}
+            {/* <StackNav/> */}
+            <TryThis/>
 
         </NavigationContainer>
       )}
