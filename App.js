@@ -5,7 +5,7 @@ import TheContext from './Storge/thisContext';
 import StartLoading from './src/asets/animations/StartLoading';
 import StackNav from './src/routesNAV/StackNav';
 import TryThis from './src/TryThis';
-
+import { View,Text } from 'react-native';
 
 const App=()=> {
 
@@ -18,6 +18,12 @@ const App=()=> {
             {/* <DrawerNav/> */}
             {/* <StackNav/> */}
             <TryThis/>
+
+            {/* <View>
+              <Text>
+                hello
+              </Text>
+            </View> */}
 
         </NavigationContainer>
       )}

@@ -3,28 +3,41 @@ import { View, StyleSheet, Text } from 'react-native';
 import Draggable from 'react-native-draggable';
 import { globalHW } from '../Storge/global';
 import TheHeader from './component/TheHeader';
-import { log } from 'react-native-reanimated';
 import TheButton from './component/TheButton';
 
 const DraggableElement = () => {
   const [render, setrender] = useState(true);
-  const [tierListPosition, setTierListPosition] = useState({ x:0, y:0, xLimit:0, yLimit:0});
-  console.log(tierListPosition);
+  const [ContainertierListPosition, setContainertierListPosition] = useState
+  (
+    { x:0, y:0, xLimit:0, yLimit:0, tier:0, width:0, height: 0,}
+  );
+  const [tierListPosition, setTierListPosition] = useState(
+    {
+      A:{ x:0, y:0, xLimit:0, yLimit:0},
+      B:{ x:0, y:0, xLimit:0, yLimit:0},
+      C:{ x:0, y:0, xLimit:0, yLimit:0},
+      D:{ x:0, y:0, xLimit:0, yLimit:0},
+    }
+  );
+  const DraggableSize=(ContainertierListPosition.xLimit/6)
+
 
   const handleLayout = (event) => {
     const { x, y, width, height } = event.nativeEvent.layout;
     console.log('x:', x, 'y:',y);
     console.log('xLimit:', width, 'yLimit:',height);
-    tierListPosition.x=x
-    tierListPosition.y=y
-    tierListPosition.xLimit=width-50
-    tierListPosition.yLimit=height-10
+    ContainertierListPosition.x=x
+    ContainertierListPosition.y=y
+    ContainertierListPosition.xLimit=x+width
+    ContainertierListPosition.yLimit=y+height
+    ContainertierListPosition.height=height,
+    ContainertierListPosition.width=width
   };
 
   const RenderTierListView=()=>{
-    console.log(tierListPosition.xLimit);
+    // console.log(ContainertierListPosition.xLimit);
     const Size = {
-      width: (tierListPosition.xLimit/6),
+      width: (DraggableSize),
     }
     const [containerPosition, setPontainerPosition]=useState([
       {
@@ -51,18 +64,44 @@ const DraggableElement = () => {
           backgroundColor:'#560319',
         }
       },
+      {
+        name:'D',
+        position:{ x:0, y:0},
+        st:{
+          ...Size,
+          backgroundColor:'#560319',
+        }
+      },
     ]);
+    console.log(containerPosition[0].position);
+
+    const [p, setp] = useState({x:0,y:0});
 
     const handleLayout = (event,i) => {
       const { x, y, width, height } = event.nativeEvent.layout;
+      console.log(y);
       containerPosition[i].position.x=x
       containerPosition[i].position.y=y
-      // console.log('Position:', x, y);
-      // console.log('Size:', width, height);
+
+      // let yLimit=height+ContainertierListPosition.y
+      // let xLimit=x+ContainertierListPosition.xLimit
+      // tierListPosition[containerPosition[i].name].x=x
+      // tierListPosition[containerPosition[i].name].xLimit=xLimit
+      // tierListPosition[containerPosition[i].name].yLimit=yLimit
+      // tierListPosition[containerPosition[i].name].y=y
+
+      // console.log('y',height);
     };
 
+    const handleDrag =(e,position)=>{
+      const { moveX, moveY } = position;
+        y=moveY-ContainertierListPosition.y-28//28 raduce size
+        x=moveX-ContainertierListPosition.x-28
+      setp({ x:x, y:y })
+    }
+
     return(
-      <>
+      <View>
         {containerPosition.map((item,i)=>
           <View key={item.name} style={styles.tiers} onLayout={(event)=>handleLayout(event,i)}>
             <View style={[item.st,styles.centerItem]}>
@@ -71,23 +110,35 @@ const DraggableElement = () => {
             <View style={{flex:1}}></View>
           </View>
         )}
-        <RenderDraggableItems/>
-      </>
+        <RenderDraggableItems2/>
+          {/* <Draggable
+            x={p.x}
+            y={p.y}
+            onDrag={handleDrag}
+            // onRelease={()=>onRelease()}
+            renderSize={56}
+            renderColor="#6f7ddb"
+            isCircle
+            shouldReverse
+          >
+        </Draggable> */}
+      </View>
     )
   }
 
   const RenderDraggableItems =()=>{
 
-    const ScreenEnd=globalHW.windowHeight-globalHW.windowHeight*0.1;
+    const screenEnd=ContainertierListPosition.yLimit
+    const noneList=ContainertierListPosition.yLimit+10
     const Size = {
-      width: (tierListPosition.xLimit/6),
-      height: (tierListPosition.xLimit/6),
+      width: (DraggableSize),
+      height: (DraggableSize),
     }
     const [Data, SetData] = useState(
       [
         {
           name:'item1',
-          position:{ x: globalHW.windowHeight*0.08, y: ScreenEnd},
+          position:{ x: globalHW.windowHeight*0.08, y: noneList},
           list:{name:'none',place:1},
           st:{
             ...Size,
@@ -96,7 +147,7 @@ const DraggableElement = () => {
         },
         {
           name:'item2',
-          position:{ x: globalHW.windowHeight*0.08*2+2, y: ScreenEnd },
+          position:{ x: globalHW.windowHeight*0.08*2+2, y: noneList },
           list:{name:'none',place:2},
           st:{
             ...Size,
@@ -105,7 +156,7 @@ const DraggableElement = () => {
         },
         {
           name:'item3',
-          position:{ x: globalHW.windowHeight*0.08*3+4, y: ScreenEnd },
+          position:{ x: globalHW.windowHeight*0.08*3+4, y: noneList },
           list:{name:'none',place:3},
           st:{
             ...Size,
@@ -114,7 +165,7 @@ const DraggableElement = () => {
         },
         {
           name:'item4',
-          position:{ x: globalHW.windowHeight*0.08*4+6, y: ScreenEnd },
+          position:{ x: globalHW.windowHeight*0.08*4+6, y: noneList },
           list:{name:'none',place:4},
           st:{
             ...Size,
@@ -123,7 +174,7 @@ const DraggableElement = () => {
         },
         {
           name:'item5',
-          position:{ x: globalHW.windowHeight*0.08*5+8, y: ScreenEnd },
+          position:{ x: globalHW.windowHeight*0.08*5+8, y: noneList },
           list:{name:'none',place:5},
           st:{
             ...Size,
@@ -137,7 +188,7 @@ const DraggableElement = () => {
     const handleDrag = (gestureState,item) => {
     
       const { moveX, moveY } = gestureState;
-      item.position={ x: moveX, y: moveY }
+      item.position={ x: moveX-(DraggableSize)/2, y: moveY-(DraggableSize)/2 }
       SetData([...Data])
       // setrender
       // SetData(...Data)
@@ -147,7 +198,8 @@ const DraggableElement = () => {
     };
 
     const onRelease =(item)=>{
-      console.log("drop at: x:"+ item.position.x +" y:"+item.position.y)
+      if (item.position.y>screenEnd-10) {
+        console.log("drop at: x:"+ item.position.x +" y:"+item.position.y)
       var place = Data.indexOf(item)+1;
       console.log('place: '+place);
       var newPlace=Data.length
@@ -181,10 +233,12 @@ const DraggableElement = () => {
   
       newData.forEach((element,i) => {
         console.log(element.name+" "+element.list.place);
-        element.position.y=ScreenEnd
+        element.position.y=noneList
         element.position.x=(globalHW.windowHeight*0.08+2)*element.list.place
       })// sort elements places
       SetData([...newData])
+      }
+      
     }
 
     return(
@@ -197,7 +251,219 @@ const DraggableElement = () => {
             onDrag={(e,gestureState)=>handleDrag(gestureState,item)}
             // onDragRelease={(e,gestureState)=>handleDrag(gestureState,item)}
             onRelease={()=>onRelease(item)}
-            renderSize={(tierListPosition.xLimit/6)}
+            renderSize={(DraggableSize)}
+            renderColor="#6f7ddb"
+            isCircle
+            shouldReverse
+        >
+          {/* Render your draggable element */}
+          <View style={[styles.centerItem,item.st]}><Text>{item.name}</Text></View>
+        </Draggable>
+        )}
+      </>
+    )
+  }
+
+  const RenderDraggableItems2 =()=>{
+
+    const screenEnd=ContainertierListPosition.height-10
+    const noneList=ContainertierListPosition.height
+    const Size = {
+      width: (DraggableSize),
+      height: (DraggableSize),
+    }
+    const position={x:0,y:noneList}
+    const [Data, SetData] = useState(
+      [
+        {
+          name:'item1',
+          position:{ x: position.x, y: noneList},
+          list:{name:'none',place:1},
+          st:{
+            ...Size,
+            backgroundColor:'red'
+          },
+        },
+        {
+          name:'item2',
+          position:{ x:DraggableSize+2, y: noneList },
+          list:{name:'none',place:2},
+          st:{
+            ...Size,
+            backgroundColor:'#ffa07a'
+          },
+        },
+        {
+          name:'item3',
+          position:{ x: DraggableSize*2+4, y: noneList },
+          list:{name:'none',place:3},
+          st:{
+            ...Size,
+            backgroundColor:'#fa8072'
+          },
+        },
+        {
+          name:'item4',
+          position:{ x: DraggableSize*3+6, y: noneList },
+          list:{name:'none',place:4},
+          st:{
+            ...Size,
+            backgroundColor:'#ff6347'
+          },
+        },
+        {
+          name:'item5',
+          position:{ x: DraggableSize*4+8, y: noneList },
+          list:{name:'none',place:5},
+          st:{
+            ...Size,
+            backgroundColor:'#8b0000'
+          },
+        },
+        
+      ]
+    );
+    const [selecteData, SetselecteData]=useState(
+      [
+        {none:[
+            {
+              name:'item1',
+              position:{ x: position.x, y: noneList},
+              list:{name:'none',place:1},
+              st:{
+                ...Size,
+                backgroundColor:'red'
+              },
+            },
+            {
+              name:'item2',
+              position:{ x:DraggableSize+2, y: noneList },
+              list:{name:'none',place:2},
+              st:{
+                ...Size,
+                backgroundColor:'#ffa07a'
+              },
+            },
+            {
+              name:'item3',
+              position:{ x: DraggableSize*2+4, y: noneList },
+              list:{name:'none',place:3},
+              st:{
+                ...Size,
+                backgroundColor:'#fa8072'
+              },
+            },
+            {
+              name:'item4',
+              position:{ x: DraggableSize*3+6, y: noneList },
+              list:{name:'none',place:4},
+              st:{
+                ...Size,
+                backgroundColor:'#ff6347'
+              },
+            },
+            {
+              name:'item5',
+              position:{ x: DraggableSize*4+8, y: noneList },
+              list:{name:'none',place:5},
+              st:{
+                ...Size,
+                backgroundColor:'#8b0000'
+              },
+            },
+        ]
+      },
+        {A:[{}]},
+        {B:[{}]},
+        {C:[{}]},
+        {D:[{}]},
+      ]
+    );
+    
+    const handleDrag = (gestureState,item) => {
+
+      const { moveX, moveY } = gestureState;
+      y=moveY-ContainertierListPosition.y-DraggableSize/2 //raduce size
+      x=moveX-ContainertierListPosition.x-DraggableSize/2
+      item.position={ x: x, y: y }
+      SetData([...Data])
+    };
+
+    const getItemNewPlace =(item)=>{
+      var newPlace=Data.length
+      Data.forEach((element) => {
+          if (item.position.y>screenEnd-10) {
+            if (element.name!=item.name) {
+                if(element.position.x-item.position.x>-7 && element.list.name==item.list.name){//in lift and in same list
+                  console.log('in lift of '+element.name);
+                  newPlace=newPlace-1
+                }else if (element.position.x-item.position.x<-7 && element.list.name==item.list.name) {//in right and in same list
+                  console.log('in right of '+element.name);
+                }
+            }
+        }else{
+          item.position.y=0
+          newPlace=0
+        }
+      });// get item new place 
+      return newPlace
+    };
+
+    const getNewSortedData =(item,newPlace)=>{
+      const newData=[]
+      Data.forEach((element) => {
+        if (element.name!=item.name) {
+          newData.push(element)
+        }
+      });
+      newData.splice((newPlace-1),0,item)
+      return(newData);
+    };
+
+    const giveElementNewPlaces=(newData)=>{
+      newData.forEach((element,i) => {
+        if (true) {
+          element.list.place=newData.indexOf(element)+1
+        }
+      });
+    }
+
+    const setTier=(item)=>{
+
+    }
+
+    const onRelease =(item)=>{
+      console.log("2")
+        // console.log("drop at: x:"+ item.position.x +" y:"+item.position.y)
+      var newPlace=getItemNewPlace(item)
+      const newData=getNewSortedData(item,newPlace);
+      giveElementNewPlaces(newData)
+      // sort elements places
+      if (item.position.y>screenEnd-10) {
+      newData.forEach((element,i) => {
+        console.log(element.name+" "+element.list.place);
+        element.position.y=noneList
+        element.position.x=(DraggableSize*i)+2*i
+      })}
+      if (item.position.y>0&&item.position.y<81) {
+        item.position.y=ContainertierListPosition.y*0.04
+        item.position.x=DraggableSize+4
+      }
+
+      SetData([...newData])    
+    }
+
+    return(
+      <>
+        {Data.map((item)=>
+          <Draggable
+            key={item.name}
+            x={item.position.x}
+            y={item.position.y}
+            onDrag={(e,gestureState)=>handleDrag(gestureState,item)}
+            onDragRelease={()=>{console.log("1");}}
+            onRelease={()=>onRelease(item)}
+            renderSize={(DraggableSize)}
             renderColor="#6f7ddb"
             isCircle
             shouldReverse
@@ -214,14 +480,14 @@ const DraggableElement = () => {
 
   return (
     <View style={styles.ScreenContainer}>
-      <TheHeader/>
+      {/* <TheHeader/>
 
       <TheButton 
         buttonName={'render'}
         buttonNameStyle={{fontSize: 20,}}
         buttonStyle={{backgroundColor:'#4545',}}
         onPress={()=>setrender(!render)}
-      />
+      /> */}
       
 
       <View style={styles.Container}>
@@ -232,34 +498,10 @@ const DraggableElement = () => {
 
         
       </View>
-      <RenderDraggableItems/>
-      
-      {/* {arr.map((item)=>
-        <View key={item} style={{height:globalHW.windowHeight*0.1, borderColor:'blue',borderWidth:2,flexDirection:'row'}}>
-          {arr.map((item)=>
-          <View key={item} style={{width:globalHW.windowHeight*0.1,height:globalHW.windowHeight*0.1, borderColor:'blue',borderWidth:2}}>
-          
-          </View>
-          )}
-        </View>
-      )} */}
-      
-
-      {/* <View onLayout={handleLayout}
-       style={{
-         alignSelf:'center',
-         height:globalHW.windowHeight*0.1,
-         backgroundColor: 'green',
-         borderColor:'blue',
-         borderWidth:2
-        }}>
-
-       </View> */}
-
-
+      {/* <RenderDraggableItems/> */}
       {/* <Draggable
-        x={391-50}
-        y={ 749-10}
+        x={ContainertierListPosition.x}
+        y={ContainertierListPosition.y+244}
         // onDrag={handleDrag}
         // onRelease={()=>onRelease()}
         renderSize={56}
@@ -268,7 +510,7 @@ const DraggableElement = () => {
         shouldReverse
       >
       </Draggable> */}
-
+      
     </View>
   );
 };
