@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, {useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import Draggable from 'react-native-draggable';
 import { globalHW } from '../Storge/global';
-import TheHeader from './component/TheHeader';
-import TheButton from './component/TheButton';
 
 const DraggableElement = () => {
   const [render, setrender] = useState(true);
@@ -68,64 +66,56 @@ const DraggableElement = () => {
       width: (DraggableSize),
       height: (DraggableSize)+DraggableSize*0.2,
     }
+    const [tiersSize,setTiersSize]=useState({})
+      tierContainer.forEach((item)=>{
+        tiersSize[item.name]={...Size}
+      })
+      // console.log(tiersSize.A.height=tiersSize.A.height*2);
 
-    // const [p, setp] = useState({x:0,y:0});
-
-    // const handleDrag =(e,position)=>{
-    //   const { moveX, moveY } = position;
-    //     y=moveY-ContainertierListPosition.y-28//28 raduce size
-    //     x=moveX-ContainertierListPosition.x-28
-    //   setp({ x:x, y:y })
-    // }//try Draggable
-
+      // const changeTiersSize=(list)=>{
+      //   var xLimit=ContainertierListPosition.xLimit-DraggableSize
+      //   // console.log(list);
+      //   for (const element of list) {
+      //     if (element.position.x>xLimit) {
+      //       if (element.list.name!='none') {
+      //         console.log('its out of xLimit');
+      //         element.position.y=element.position.y+DraggableSize+DraggableSize*0.2
+      //     }
+      //       break
+      //     }
+      //   }
+      // }
+      
     return(
       <View>
         {tierContainer.map((item,i)=>
           <View key={item.name} style={styles.tiers} onLayout={(event)=>handleLayout(event,i,true)}>
-            <View style={[item.st,styles.centerItem,{...Size,}]}>
+            <View style={[item.st,styles.centerItem,tiersSize[item.name]]}>
               <Text>{item.name}</Text>
             </View>
           </View>
         )}
         <RenderDraggableItems/>
-
-          {/* <Draggable
-            x={p.x}
-            y={p.y}
-            onDrag={handleDrag}
-            // onRelease={()=>onRelease()}
-            renderSize={56}
-            renderColor="#6f7ddb"
-            isCircle
-            shouldReverse
-          >
-        </Draggable> */}
-
       </View>
     )
   }
 
   const RenderDraggableItems =()=>{
-    // console.log('y',tierListPosition[1].y);
-    // tierListPosition.forEach((item)=>{
-    //   console.log('y',item.y);
-    // })
-    var tiersP={};
+
+    var tiersPosition={};
       tierContainer.forEach((item)=>{
-        tiersP[item.name]=item.position.y
+        tiersPosition[item.name]=item.position.y
       })
+    // console.log(tiersPosition);
+
     const screenEnd=ContainertierListPosition.height-10
     const noneList=ContainertierListPosition.height
     
-    
-    // console.log('tiersP');
-    // console.log(tiersP);
-
-
     const Size = {
       width: (DraggableSize),
       height: (DraggableSize),
     }
+
     const position={x:0,y:noneList}
     const [Data, SetData] = useState(
       [
@@ -134,7 +124,7 @@ const DraggableElement = () => {
           position:{ x: position.x, y: noneList},
           list:{name:'none',place:1},
           st:{
-            ...Size,
+            // ...Size,
             backgroundColor:'red'
           },
         },
@@ -143,7 +133,7 @@ const DraggableElement = () => {
           position:{ x:DraggableSize+2, y: noneList },
           list:{name:'none',place:2},
           st:{
-            ...Size,
+            // ...Size,
             backgroundColor:'#ffa07a'
           },
         },
@@ -152,7 +142,7 @@ const DraggableElement = () => {
           position:{ x: DraggableSize*2+4, y: noneList },
           list:{name:'none',place:3},
           st:{
-            ...Size,
+            // ...Size,
             backgroundColor:'#fa8072'
           },
         },
@@ -161,7 +151,7 @@ const DraggableElement = () => {
           position:{ x: DraggableSize*3+6, y: noneList },
           list:{name:'none',place:4},
           st:{
-            ...Size,
+            // ...Size,
             backgroundColor:'#ff6347'
           },
         },
@@ -170,19 +160,25 @@ const DraggableElement = () => {
           position:{ x: DraggableSize*4+8, y: noneList },
           list:{name:'none',place:5},
           st:{
-            ...Size,
+            // ...Size,
             backgroundColor:'#8b0000'
           },
         },
         
       ]
     );
+    var [itemSize,setItemSize]=useState({});
+      Data.forEach((item)=>{
+        itemSize[item.name]={...Size}
+      })
+    // console.log(itemSize);
+
     
     const handleDrag = (gestureState,item) => {
       const { moveX, moveY } = gestureState;
       y=moveY-ContainertierListPosition.y-DraggableSize/2 //raduce size
-      tiersP=moveX-ContainertierListPosition.x-DraggableSize/2
-      item.position={ x: tiersP, y: y }
+      tiersPosition=moveX-ContainertierListPosition.x-DraggableSize/2
+      item.position={ x: tiersPosition, y: y }
       SetData([...Data])
     };
 
@@ -229,10 +225,29 @@ const DraggableElement = () => {
     };// 90%
 
     const giveElementNewPlaces=(newData)=>{
-      
       newData.forEach((element,i) => {
           element.list.place=newData.indexOf(element)+1
       });
+    }
+
+    const changeTiersSize=(list)=>{
+      var xLimit=ContainertierListPosition.xLimit-DraggableSize
+      // console.log(list);
+      for (const element of list) {
+        if (element.position.x>DraggableSize) {//xLimit
+          if (element.list.name!='none') {
+            console.log('its out of xLimit');
+            itemSize[element.name].height=0
+            itemSize[element.name].width=0
+            console.log(itemSize[element.name]);
+            setItemSize({...itemSize})
+            // element.position.y=element.position.y+DraggableSize+DraggableSize*0.2
+            // element.st.height=20
+            // element.st.width=20
+          break
+          }
+        }
+      }
     }
 
     const onRelease =(item)=>{
@@ -249,9 +264,11 @@ const DraggableElement = () => {
               (DraggableSize*place)+2*place:
               !place?DraggableSize+2:
               DraggableSize*(place+1)+2*(place+1)
-              
           }
         })
+      })
+      tiers.forEach((tier,i)=>{
+        changeTiersSize(tier.list)
       })
       SetData([...newData.Data])    
     }
@@ -259,35 +276,27 @@ const DraggableElement = () => {
     const onDragRelease=(item)=>{
       console.log('onDragRelease');
       // const { moveX, moveY } = gestureState;
-        if (item.position.y>-DraggableSize/2 && item.position.y<tiersP.B-DraggableSize/2) {
-          item.position.y=tiersP.B*0.1
+        if (item.position.y>-DraggableSize/2 && item.position.y<tiersPosition.B-DraggableSize/2) {
+          item.position.y=tiersPosition.B*0.1
           item.list.name='A'
         }
-        else if (item.position.y>tiersP.B-DraggableSize/2 && item.position.y<tiersP.C-DraggableSize/2) {
-          item.position.y=tiersP.B+tiersP.B*0.1
+        else if (item.position.y>tiersPosition.B-DraggableSize/2 && item.position.y<tiersPosition.C-DraggableSize/2) {
+          item.position.y=tiersPosition.B+tiersPosition.B*0.1
           item.list.name='B'
         }
-        else if (item.position.y>tiersP.C-DraggableSize/2 && item.position.y<tiersP.D-DraggableSize/2) {
-          item.position.y=tiersP.C+tiersP.B*0.1
+        else if (item.position.y>tiersPosition.C-DraggableSize/2 && item.position.y<tiersPosition.D-DraggableSize/2) {
+          item.position.y=tiersPosition.C+tiersPosition.B*0.1
           item.list.name='C'
         }
-        else if (item.position.y>tiersP.D-DraggableSize/2 && item.position.y<screenEnd-DraggableSize/2) {
-          item.position.y=tiersP.D+tiersP.B*0.1
+        else if (item.position.y>tiersPosition.D-DraggableSize/2 && item.position.y<screenEnd-DraggableSize/2) {
+          item.position.y=tiersPosition.D+tiersPosition.B*0.1
           item.list.name='D'
         }
         else{
           item.position.y=screenEnd+10
           item.list.name='none'
         }     
-    }/*************************************************************/
-
-    {/* check if ist out
-    console.log(ContainertierListPosition.xLimit);
-      console.log(item.position.x);
-      if (item.position.x+DraggableSize>ContainertierListPosition.xLimit) {
-        console.error('out');
-      }
-   */}
+    }/*************************aoutomtic**************************/
 
     return(
       <>
@@ -296,18 +305,19 @@ const DraggableElement = () => {
             key={item.name}
             x={item.position.x}
             y={item.position.y}
+            z={0}
             onDrag={(e,gestureState)=>handleDrag(gestureState,item)}
-            onDragRelease={(e,gestureState)=>{onDragRelease(item)
-            // console.log(gestureState);
-            }}
+            onDragRelease={(e,gestureState)=>{onDragRelease(item)}}
             onRelease={()=>onRelease(item)}
-            renderSize={(DraggableSize)}
+            // onShortPressRelease={()=>{
+            //   itemSize[item.name].height=10
+            // }}
+            renderSize={(itemSize.item1.height)}
             renderColor="#6f7ddb"
             isCircle
             shouldReverse
         >
-          {/* Render your draggable element */}
-          <View style={[styles.centerItem,item.st]}><Text>{item.name}</Text></View>
+          <View style={[styles.centerItem,item.st,itemSize[item.name]]}><Text>{item.name}</Text></View>
         </Draggable>
         )}
       </>
@@ -317,39 +327,13 @@ const DraggableElement = () => {
   
 
   return (
+    
     <View style={styles.ScreenContainer}>
-
       <View style={styles.Container}>
         <View onLayout={handleLayout} style={styles.TierListView}>
           <RenderTierListView/>
         </View>
       </View>
-
-
-      {/* <TheHeader/>
-
-      <TheButton 
-        buttonName={'render'}
-        buttonNameStyle={{fontSize: 20,}}
-        buttonStyle={{backgroundColor:'#4545',}}
-        onPress={()=>setrender(!render)}
-      /> */}
-      
-
-      
-      {/* <RenderDraggableItems/> */}
-      {/* <Draggable
-        x={ContainertierListPosition.x}
-        y={ContainertierListPosition.y+244}
-        // onDrag={handleDrag}
-        // onRelease={()=>onRelease()}
-        renderSize={56}
-        renderColor="#6f7ddb"
-        isCircle
-        shouldReverse
-      >
-      </Draggable> */}
-      
     </View>
   );
 };
@@ -372,8 +356,6 @@ const styles = StyleSheet.create({
     justifyContent:'center',
   },
   TierListView:{
-    // flex:1,
-    // backgroundColor:'green',
     borderColor:'#fff',
     margin: 10,
     padding:5,
@@ -381,7 +363,6 @@ const styles = StyleSheet.create({
     borderRadius:10,
   },
   tiers:{
-    // height: globalHW.windowHeight*0.1,
     width: globalHW.windowWidth*0.9,
     flexDirection:'row',
     borderColor: 'black',
@@ -390,202 +371,3 @@ const styles = StyleSheet.create({
 });
 
 export default DraggableElement;
-
-
-
-// import React, { useState } from 'react';
-// import { View, Text, FlatList, TouchableOpacity } from 'react-native';
-
-// const gamesData = [
-//   { name: 'Mario Kart', genre: ['Racing','Adventure'] },
-//   { name: 'Minecraft', genre: ['Adventure'] },
-//   { name: 'Fortnite', genre: ['Battle Royale'] },
-//   { name: 'FIFA', genre: ['Sports'] },
-// ];
-
-// const TryThis = () => {
-//   const [selectedGenres, setSelectedGenres] = useState([]);
-//   const [games, setGames] = useState([...gamesData]);
-
-//   console.log('====================================');
-//   console.log(selectedGenres);
-//   console.log('====================================');
-
-//   const toggleGenreSelection = (genre) => {
-//     if (selectedGenres.includes(genre)) {
-//       setSelectedGenres(selectedGenres.filter((g) => g !== genre));
-//     } else {
-//       setSelectedGenres([...selectedGenres, genre]);
-//     }
-//   };
-
-//   const getFilteredGames = () => {
-//     if (!selectedGenres.length) {
-//       return gamesData;
-//     }
-  
-//     return gamesData.filter((game) =>
-//       selectedGenres.every((g) => game.genre.includes(g))
-//     );
-//   };
-
-//   const renderItem = ({ item }) => (
-//     <View style={{ marginVertical: 10 }}>
-//       <Text style={{ fontSize: 18 }}>{item.name}</Text>
-//       <Text>{item.genre}</Text>
-//     </View>
-//   );
-
-//   return (
-//     <View style={{ flex: 1, padding: 20 }}>
-//       <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-//         <TouchableOpacity
-//           onPress={() => toggleGenreSelection('Racing')}
-//           style={{
-//             borderWidth: 1,
-//             borderColor: selectedGenres.includes('Racing') ? 'red' : 'gray',
-//             borderRadius: 10,
-//             padding: 5,
-//             margin: 5,
-//           }}
-//         >
-//           <Text>Racing</Text>
-//         </TouchableOpacity>
-        
-//         <TouchableOpacity
-//           onPress={() => toggleGenreSelection('Adventure')}
-//           style={{
-//             borderWidth: 1,
-//             borderColor: selectedGenres.includes('Adventure') ? 'red' : 'gray',
-//             borderRadius: 10,
-//             padding: 5,
-//             margin: 5,
-//           }}
-//         >
-//           <Text>Adventure</Text>
-//         </TouchableOpacity>
-        
-//         <TouchableOpacity
-//           onPress={() => toggleGenreSelection('Battle Royale')}
-//           style={{
-//             borderWidth: 1,
-//             borderColor: selectedGenres.includes('Battle Royale') ? 'red' : 'gray',
-//             borderRadius: 10,
-//             padding: 5,
-//             margin: 5,
-//           }}
-//         >
-//           <Text>Battle Royale</Text>
-//         </TouchableOpacity>
-        
-//         <TouchableOpacity
-//           onPress={() => toggleGenreSelection('Sports')}
-//           style={{
-//             borderWidth: 1,
-//             borderColor: selectedGenres.includes('Sports') ? 'red' : 'gray',
-//             borderRadius: 10,
-//             padding: 5,
-//             margin: 5,
-//           }}
-//         >
-//           <Text>Sports</Text>
-//         </TouchableOpacity>
-//       </View>
-
-//       <TouchableOpacity
-//         onPress={() =>{
-//            setGames([...getFilteredGames()])
-//           }} // replace with sorting implementation
-//         style={{ backgroundColor: 'blue', padding: 10, marginTop: 10 }}
-//       >
-//         <Text style={{ color: 'white' }}>Done</Text>
-//       </TouchableOpacity>
-
-//       <FlatList
-//         data={games}
-//         keyExtractor={(item) => item.name}
-//         renderItem={renderItem}
-//         style={{ marginTop: 20 }}
-//       />
-//     </View>
-//   );
-// };
-
-// export default TryThis;
-
-
-// import React, { useState } from 'react';
-// import { FlatList, Button, View, Text } from 'react-native';
-
-// const games = [
-//   { id: '1', name: 'Mario Kart', genre: 'Racing' },
-//   { id: '2', name: 'Fortnite', genre: 'Battle Royale' },
-//   { id: '3', name: 'Call of Duty', genre: 'First Person Shooter' }
-// ];
-
-// const GenreSelector = ({ selectedGenres, onGenrePress }) => {
-//   const genres = ['Racing', 'Battle Royale', 'First Person Shooter'];
-
-//   return (
-//     <>
-//       {genres.map((genre, i) => (
-//         <Button
-//           key={`genre-${i}`}
-//           onPress={() => onGenrePress(genre)}
-//           title={genre}
-//           color={selectedGenres.includes(genre) ? 'green' : 'gray'}
-//         />
-//       ))}
-//     </>
-//   );
-// };
-
-// const GameItem = ({ game }) => {
-//   return (
-//     <View>
-//       <Text>{game.name}</Text>
-//     </View>
-//   );
-// };
-
-// const TryThis = () => {
-//   const [selectedGenres, setSelectedGenres] = useState([]);
-
-//   const handleGenrePress = (genre) => {
-//     if (selectedGenres.includes(genre)) {
-//       setSelectedGenres(selectedGenres.filter((g) => g !== genre));
-//     } else {
-//       setSelectedGenres([...selectedGenres, genre]);
-//     }
-//   };
-
-//   const filteredGames = selectedGenres.length
-//     ? games.filter((game) => selectedGenres.includes(game.genre))
-//     : games;
-
-//   return (
-//     <>
-//       <Button
-//         onPress={() => setSelectedGenres([])}
-//         title="Clear filters"
-//       />
-
-//       <FlatList
-//         data={filteredGames}
-//         keyExtractor={(item) => item.id}
-//         renderItem={({ item }) => (
-//           <GameItem game={item} />
-//         )}
-//       />
-
-//       <GenreSelector
-//         selectedGenres={selectedGenres}
-//         onGenrePress={handleGenrePress}
-//       />
-//     </>
-//   );
-// };
-
-
-
-// export default TryThis;
