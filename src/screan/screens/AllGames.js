@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { StyleSheet, View,} from 'react-native';
 import Game from '../../../Storge/GameData';
 import TheModal from '../../component/TheModal';
@@ -6,6 +6,8 @@ import RenderGameCard from '../../component/RenderGameCard';
 import SearchBar from '../../component/SearchBar';
 import SortModal from '../../component/SortModal';
 import SortTypeButtonContent from '../../component/SortTypeButtonContent';
+import { getAllGames } from '../../res/API';
+
 
 const AllGames = () => {
   console.log('AllGames');
@@ -113,6 +115,17 @@ const AllGames = () => {
       setGames,
     }
   }//params
+
+  const getAllGamesFromApi = () => {
+    getAllGames()
+    .then((res) => {
+        console.log("all games: " , res);
+    })
+}
+
+useEffect(()=> {
+    getAllGamesFromApi()
+}, [])
 
   return (
     <View style={styles.screen}>

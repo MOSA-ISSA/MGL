@@ -9,8 +9,6 @@ import DraggableExample from './src/TierListPart2';
 import { View,Text } from 'react-native';
 import TryV2 from './TierList/TryV2';
 
-const mongoose = require('mongoose');
-
 const App=()=> {
 
   return(
@@ -20,10 +18,7 @@ const App=()=> {
         <NavigationContainer >
           
             {/* <DrawerNav/> */}
-            {/* <StackNav/> */}
-            {/* <TryThis/> */}   
-            {/* <DraggableExample/> */}
-            <TryV2/>
+            <StackNav/>
 
         </NavigationContainer>
       )}

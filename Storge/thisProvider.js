@@ -14,6 +14,8 @@ const TheProvider = props => {
   //   trash:[],
   // })
 
+  const [tirs,setTiers] =useState({})
+
   const [User,setUser] = useState({
     name: '',
     password: '',
