@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import {View, StyleSheet, TouchableOpacity, Image, Text} from 'react-native';
-import { ScreenNames } from '../../../Storge/global';
+import { ScreenNames, globalHW } from '../../../Storge/global';
 import TheContext from '../../../Storge/thisContext';
 
 const UserNav = ({navigate}) => {
@@ -21,7 +21,7 @@ const UserNav = ({navigate}) => {
 
             {/*User name*/}
             <View style={styles.UserName}>
-                <Text style={styles.userName}> {User.name} </Text>
+                <Text style={styles.userName}> {User.name?User.name:'log in'} </Text>
             </View>
 
         </TouchableOpacity>
@@ -31,9 +31,9 @@ const UserNav = ({navigate}) => {
 const styles = StyleSheet.create({
     userNav: {height:"100%", width:'100%', backgroundColor:'black',borderRadius:100},
     img:{height: '100%', width: '100%', borderRadius:100, borderWidth:2, borderColor:'black'},
-    userName: {fontSize: 24, color:'black', fontWeight: '600',},
-    UserImage:{height:'75%',width: '100%',},
-    UserName:{height:'25%',width: '100%',alignItems:'center'}
+    userName: {fontSize: globalHW.windowHeight*0.038, color:'black', fontWeight: '600',},//
+    UserImage:{height:'70%',width: '65%',alignSelf:'center'},
+    UserName:{height:'30%',width: '100%',alignItems:'center'}
 })
 
 export default UserNav;

@@ -7,7 +7,7 @@ import SearchBar from '../../component/SearchBar';
 import SortModal from '../../component/SortModal';
 import SortTypeButtonContent from '../../component/SortTypeButtonContent';
 
-import { getAllGames } from '../../res/API';
+import { checkRespond, getAllGames } from '../../res/API';
 
 
 const AllGames = () => {
@@ -119,14 +119,20 @@ const AllGames = () => {
 
   const getAllGamesFromApi = () => {
     getAllGames()
-    .then((res) => {
-        console.log("all games: " , res.games);
-    })//
-  }
+      .then((res) => {
+        console.log("all games: ", res.games);
+      })
+  };
 
-  useEffect(()=> {
-      getAllGamesFromApi()
-  }, [])//
+  getAllGamesFromApi()
+
+  const Respond = () => {
+    checkRespond()
+      .then((res) => {
+        console.log(res);
+      })
+  };
+  Respond()
 
   return (
     <View style={styles.screen}>

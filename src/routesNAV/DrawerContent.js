@@ -1,7 +1,7 @@
 import React, { useContext,useEffect,useState } from 'react';
 import { View, StyleSheet,} from 'react-native';
 import TheContext from '../../Storge/thisContext';
-import { ScreenNames } from '../../Storge/global';
+import { ScreenNames, globalHW } from '../../Storge/global';
 import UserNav from '../component/DrawerContentComponent/UserNav';
 import SettingsCardView from '../component/DrawerContentComponent/SettingsCardView';
 import AnimatableTagView from '../component/DrawerContentComponent/AnimatableTagView';
@@ -108,25 +108,31 @@ export const DrawerContent=(props)=> {
 
     return(
         <View style={styles.drawerContent}>
+
           {/*User*/}
           <View style={styles.user}>
             <UserNav navigate={props.navigation.navigate}/>
           </View>
 
-          <View style={styles.line}/>
-
-
           {/*content - navButton*/}
-          <View style={styles.sectionsContent}>
-            <RenderSectionsCard/>
-          </View>
+            <View style={styles.sectionsContent}>
+              <View style={styles.line}/>
+              <RenderSectionsCard/>
+            </View>
 
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    user:{height:'15%',width: '35%',},
+    // user:{height:'100%',width: '100%',},
+    user:{
+      flex:0.2,
+      // backgroundColor:'red',
+      height:globalHW.windowHeight*0.2,
+      width:globalHW.windowHeight*0.2,
+    },
+    // contentView:
     drawerContent: {
       flex:1,
       backgroundColor:'#199',
@@ -135,9 +141,11 @@ const styles = StyleSheet.create({
       borderTopEndRadius:15,
      borderBottomEndRadius:15,
     },
-    line:{height:5, width:'80%', backgroundColor:'black',marginVertical:2},
+    line:{height:5, width:'100%', backgroundColor:'black',marginVertical:2},
     sectionsContent: {
-      height:'85%',width: '100%',
+      marginTop:5,
+      width: '100%',
+      flex:0.8,
       backgroundColor:'#4545',
       alignItems:'stretch',
       padding:5,
