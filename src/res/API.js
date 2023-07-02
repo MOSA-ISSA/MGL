@@ -1,3 +1,4 @@
+
 const baseUrl = "https://mgl-server.onrender.com"
 
 const fetchApi = async (route, method, body) => {

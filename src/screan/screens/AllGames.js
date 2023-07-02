@@ -6,6 +6,7 @@ import RenderGameCard from '../../component/RenderGameCard';
 import SearchBar from '../../component/SearchBar';
 import SortModal from '../../component/SortModal';
 import SortTypeButtonContent from '../../component/SortTypeButtonContent';
+
 import { getAllGames } from '../../res/API';
 
 
@@ -120,12 +121,12 @@ const AllGames = () => {
     getAllGames()
     .then((res) => {
         console.log("all games: " , res);
-    })
-}
+    })//
+  }
 
-useEffect(()=> {
-    getAllGamesFromApi()
-}, [])
+  useEffect(()=> {
+      getAllGamesFromApi()
+  }, [])//
 
   return (
     <View style={styles.screen}>
