@@ -120,7 +120,7 @@ const AllGames = () => {
   const getAllGamesFromApi = () => {
     getAllGames()
     .then((res) => {
-        console.log("all games: " , res);
+        console.log("all games: " , res.games);
     })//
   }
 
