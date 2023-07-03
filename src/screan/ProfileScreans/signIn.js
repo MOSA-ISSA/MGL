@@ -5,7 +5,8 @@ import TheContext from '../../../Storge/thisContext';
 import TheHeader from '../../component/TheHeader';
 import { ScreenNames,} from '../../../Storge/global';
 import LogSignInComponent from '../../component/logSignInComponent/logSignInComponent';
-import { mailCondition, passwordCondition, userNameCondition,} from '../../userCoditions';
+import { mailCondition, passwordCondition, userIDCondition, userNameCondition,} from '../../userCoditions';
+import { creatNewUser, creatUser } from '../../res/API';
 // import { UserCondition } from '../../userCoditions';
 
 const SignIn =props=>{
@@ -17,6 +18,7 @@ const SignIn =props=>{
     const [user,setUser]=useState({
         mail:{text:'',validation:false},
         userName:{text:'',validation:false},
+        userID:{text:'',validation:false},
         userPassword:{text:'',validation:false},
     })
     const [users, setUsers] = useState(false);
@@ -84,16 +86,17 @@ const SignIn =props=>{
     // };
     
     const userCondition = ()=>{
-        user.userName.validation?user.userPassword.validation=passwordCondition(user,setAlert):null
-        user.mail.validation?user.userName.validation=userNameCondition(user,users,setAlert,):null
+        user.userID.validation?user.userPassword.validation=passwordCondition(user,setAlert):null
+        user.userName.validation?user.userID.validation=userIDCondition(user,users,setAlert,):null
+        user.mail.validation?user.userID.validation=userNameCondition(user,users,setAlert,):null
         !user.mail.validation?user.mail.validation=mailCondition(user,setAlert):null
-        return user.userName.validation&&user.mail.validation&&user.userPassword.validation
+        return user.userID.validation&&user.mail.validation&&user.userPassword.validation
     }
 
-    const signIn = () => {//set data and log in
+    const signIn = () => {//set data and log in     
         if (userCondition()) {
             User.mail=user.mail.text
-            User.name=user.userName.text
+            User.name=user.userID.text
             User.password=user.userPassword.text
             User.logged=true
             User.image =image
@@ -110,6 +113,28 @@ const SignIn =props=>{
         }
     }
 
+    const signUp =()=>{
+        if (userCondition()) {
+            // console.log(user);
+            let creatUser={
+                ID: user.userID.text,//m@m.mm
+                mail: user.mail.text,//m
+                password:user.userPassword.text,//mosa
+                name:user.userName.text,//123123123
+            }
+            creatNewUser(JSON.stringify(creatUser))
+            .then((res) => {
+
+                if (res.message==="User Exist") {
+                    setAlert(res.message)
+                }else{
+                    signIn()
+                }
+                // console.log(res);
+            })
+        }
+    }
+
     return (
         <View style={{flex:1,backgroundColor:"#0d516a"}}>
             <TheHeader textHeader={'MGL'}/>
@@ -117,7 +142,7 @@ const SignIn =props=>{
             <LogSignInComponent
                 titleName={'Sign In'}
                 alertCondition={alertCondition}
-                LogSignInButton={signIn}
+                LogSignInButton={signUp}
                 user={user}
                 users={users}
             />

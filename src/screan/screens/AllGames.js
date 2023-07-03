@@ -117,14 +117,13 @@ const AllGames = () => {
     }
   }//params
 
-  const getAllGamesFromApi = () => {
-    getAllGames()
-      .then((res) => {
-        console.log("all games: ", res.games);
-      })
-  };
-
-  getAllGamesFromApi()
+  // const getAllGamesFromApi = () => {
+  //   getAllGames()
+  //     .then((res) => {
+  //       console.log("all games: ", res.games);
+  //     })
+  // };
+  // getAllGamesFromApi()
 
   const Respond = () => {
     checkRespond()

@@ -6,7 +6,7 @@ import AlertForLogSignIn from './AlertForLogSignIn';
 import NavigateButton from './NavigateButton';
 import PasswordFoeget from './PasswordFoeget';
 import OnDoneEditing from './OnDoneEditing';
-import {mailCondition, passwordCondition, userNameCondition } from '../../userCoditions';
+import {mailCondition, passwordCondition, userIDCondition, userNameCondition } from '../../userCoditions';
 
 
 const LogSignInComponent = (
@@ -19,10 +19,13 @@ const LogSignInComponent = (
         handilingfoegetPassword,
         users,
     }) => {
+
+        // console.log(user);
         
     const userCondition = (type) => {
         type=='mail'?user.mail.validation=mailCondition(user):null
         type=='userName'?user.userName.validation=userNameCondition(user,users):null
+        type=='userID'?user.userID.validation=userIDCondition(user,users):null
         type=='userPassword'?user.userPassword.validation=passwordCondition(user):null
     }
 
@@ -35,11 +38,19 @@ const LogSignInComponent = (
             value:user.mail.text,
         }:null,
         userNameParams: 
+        titleName=='Sign In'?
         {
             keyboardType:"default",
             placeholder:"userName",
             type:'userName',
             value:user.userName.text,
+       }:null,
+       userIDParams: 
+        {
+            keyboardType:"default",
+            placeholder:"userID",
+            type:'userID',
+            value:user.userID.text,
        },
        userPasswordParams: 
        {
@@ -54,6 +65,7 @@ const LogSignInComponent = (
         const inputsParams=[
             params.mailParams,
             params.userNameParams,
+            params.userIDParams,
             params.userPasswordParams,
         ]
         return(

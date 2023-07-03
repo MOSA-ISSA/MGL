@@ -16,9 +16,8 @@ const LogIn =props=>{
     const {User,} = useContext(TheContext)
     const [alertCondition, setAlert] = useState("");
     const [foegetPassword, setForget] = useState(0);
-
     const [user,setUser]=useState({
-        userName:{text:'',validation:false},
+        userID:{text:'',validation:false},
         userPassword:{text:'',validation:false},
     })
 
@@ -41,7 +40,7 @@ const LogIn =props=>{
         setAlert('')
         setForget(0)
         setUser({
-            userName:{text:'',validation:false},
+            userID:{text:'',validation:false},
             userPassword:{text:'',validation:false},
         })
         // console.log(users);
@@ -74,12 +73,12 @@ const LogIn =props=>{
     //   },[]);//to not go back will change whin add the login to the project
 
     const handilingLogin=async ()=>{
-        if ((users.includes(user.userName.text))) {
+        if ((users.includes(user.userID.text))) {
             // console.log("user name faund");
-            let getedUser = await AsyncStorage.getItem(user.userName.text);
+            let getedUser = await AsyncStorage.getItem(user.userID.text);
             getedUser = JSON.parse(getedUser);
             if (getedUser.password==user.userPassword.text) {
-                User.name=user.userName.text
+                User.name=user.userID.text
                 User.password=user.userPassword.text
                 User.logged=true
                 User. mail = getedUser.mail
@@ -102,15 +101,21 @@ const LogIn =props=>{
                 }
             }
         }else{
-            if(user.userName.text.includes(" ")){
+            if(user.userID.text.includes(" ")){
                 setAlert("user should not includes spaces\" \"")
-            }if(user.userName.text.length<4){
+            }if(user.userID.text.length<4){
                 setAlert("user length should be at least 4")
             }
             else{
             setAlert("user name not faund")
             }
         }
+    }
+
+    const logIn=()=>{
+        //fund user
+        //check pass
+        //log in
     }
 
     const handilingfoegetPassword=()=>{

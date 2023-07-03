@@ -17,22 +17,31 @@ import React, { useState } from 'react';
         return false
     }
     
-    export const userNameCondition=(user,users,onErr,)=>{
-        console.log(user.userName['text']);
-        if (user?.userName) {
-            if (user.userName['text'].length !== 0) {
-                if (!user.userName['text'].includes(' ')) {
-                    if (user.userName['text'].length > 3) {
-                        if(!users.includes(user.userName['text'])){
+    export const userIDCondition=(user,users,onErr,)=>{
+        if (user?.userID) {
+            if (user.userID['text'].length !== 0) {
+                if (!user.userID['text'].includes(' ')) {
+                    if (user.userID['text'].length > 3) {
+                        if(!users.includes(user.userID['text'])){
                         // onErr('')
                         return true
                         }else{onErr?onErr('Another user with this name already exists'):null} 
-                    }else{onErr?onErr('Username length should be at least 4'):null} 
-                }else{onErr?onErr('Username should not include spaces'):null} 
-            }else{onErr?onErr('Please enter userName'):null}
-            user.userName['validation']=false
+                    }else{onErr?onErr('userID length should be at least 4'):null} 
+                }else{onErr?onErr('userID should not include spaces'):null} 
+            }else{onErr?onErr('Please enter userID'):null}
+            user.userID['validation']=false
         }
         return false
+    }
+
+    export const userNameCondition=(user,users,onErr,)=>{
+        if (user?.userName) {
+            if (user.userName['text'].length !== 0) {
+                return true
+            }else{onErr?onErr('Please enter userName'):null}
+        }else{
+            false
+        }
     }
   
     export const passwordCondition=(user,onErr)=>{
