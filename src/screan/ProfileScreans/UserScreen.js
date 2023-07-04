@@ -39,7 +39,8 @@ const UserScreen = props => {
   }
 
   const deleteAcaunt=()=>{
-    AsyncStorage.removeItem(User.name);
+    AsyncStorage.removeItem(User.ID);
+    //
     navigation.dispatch(
       CommonActions.reset({
         index: 0,

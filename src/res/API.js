@@ -45,6 +45,19 @@ export const getUserByID = async (ID) => {
         throw error;
     }
 };
+
+export const deleteUserByID = async (ID) => {
+    const url = "/deleteUserByID";
+    const jsonString = JSON.stringify(ID);
+    try {
+      const response = await fetchApi(url, 'DELETE', jsonString);
+      return response;
+    }
+    catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
   
 export const isUserExist = async (ID) => {
     const url = "/isUserExist";

@@ -116,7 +116,8 @@ const LogIn =props=>{
     const checkpassword=(getedUser)=>{
         // console.log(getedUser);
         if (getedUser.password==user.userPassword.text) {
-            User.name=user.userID.text
+            User.ID=user.userID.text
+            User.name=getedUser.name
             User.password=user.userPassword.text
             User.logged=true
             User. mail = getedUser.mail

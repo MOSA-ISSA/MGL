@@ -67,6 +67,7 @@ const SignIn =props=>{
         if (userCondition()) {
             User.mail=user.mail.text
             User.name=user.userID.text
+            User.ID=user.userName.text
             User.password=user.userPassword.text
             User.logged=true
             User.image =image
