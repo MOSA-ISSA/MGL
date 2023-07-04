@@ -7,7 +7,7 @@ import TheContext from '../../../Storge/thisContext';
 
 
 const Loading = props => {
-  //AsyncStorage.clear();
+  // AsyncStorage.clear();
 
   const {User,setAdmin,admin} = useContext(TheContext)
 
@@ -19,8 +19,8 @@ const Loading = props => {
     if (users.length!=0) {// if there user
       let i = 0
       let j = users.length
-      users.forEach(async username=> {
-        let user = await AsyncStorage.getItem(username)
+      users.forEach(async userID=> {
+        let user = await AsyncStorage.getItem(userID)
         user = JSON.parse(user);// cast from string to data
         //console.log({...user});
         i++;
@@ -28,6 +28,7 @@ const Loading = props => {
       if (user.logged) {
         j=0
         User.mail=user.mail
+        User.ID=user.ID
         User.name= user.name,
         User.password= user.password,
         User.logged= user.logged,

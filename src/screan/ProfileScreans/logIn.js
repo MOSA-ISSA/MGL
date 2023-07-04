@@ -125,7 +125,7 @@ const LogIn =props=>{
             User.imageBackground = getedUser.imageBackground
             User.list=getedUser.list
             
-            AsyncStorage.setItem(User.name, JSON.stringify(User));
+            AsyncStorage.setItem(User.ID, JSON.stringify(User));
             setAlert("")
             props.navigation.navigate(ScreenNames.Loading)
         }else{

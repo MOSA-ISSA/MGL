@@ -11,7 +11,7 @@ import { creatNewUser, creatUser, isUserExist } from '../../res/API';
 
 const SignIn =props=>{
     console.log('SignIn');
-    //AsyncStorage.clear();
+    // AsyncStorage.clear();
 
     const {User,image,imageBackground} = useContext(TheContext)
     const [alertCondition, setAlert] = useState("");
@@ -79,7 +79,7 @@ const SignIn =props=>{
                 trash:[],
                 }
 
-            AsyncStorage.setItem(User.name, JSON.stringify(User));
+            AsyncStorage.setItem(User.ID, JSON.stringify(User));
             props.navigation.navigate(ScreenNames.Loading)
         }
     }

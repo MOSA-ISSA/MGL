@@ -8,6 +8,7 @@ import UserScreenInfoInput from '../../component/UserScreenComponent/UserScreenI
 import { ScreenNames } from '../../../Storge/global';
 import TheButton from '../../component/TheButton';
 import UserScreenFace from '../../component/UserScreenComponent/UserScreenFace';
+import { deleteUserByID } from '../../res/API';
 
 const UserScreen = props => {
   
@@ -16,9 +17,11 @@ const UserScreen = props => {
   const navigation = useNavigation();
   const {User,image,imageBackground} = useContext(TheContext)
 
+  console.log(User);
+
   const logout = async ()=>{
       User.logged= false,
-      AsyncStorage.setItem(User.name, JSON.stringify(User));
+      AsyncStorage.setItem(User.ID, JSON.stringify(User));
       User.name= '',
       User.password= '',
       User.mail = '',
@@ -40,7 +43,7 @@ const UserScreen = props => {
 
   const deleteAcaunt=()=>{
     AsyncStorage.removeItem(User.ID);
-    //
+    deleteUserByID({"ID":User.ID})
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
