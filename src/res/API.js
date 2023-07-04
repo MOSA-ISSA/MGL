@@ -28,9 +28,35 @@ export const getAllGames = async () => {
 
 export const creatNewUser = async (user) => {
     const url = "/creatNewUser";
-    console.log(user);
-    const jsonString = JSON.stringify(user);
+    // console.log(user);
+    // const jsonString = JSON.stringify(user);
     return await fetchApi(url , 'POST' , user)
+}
+
+export const getUserByID = async (ID) => {
+    const url = "/getUserByID";
+    const jsonString = JSON.stringify(ID);
+    try {
+      const response = await fetchApi(url, 'POST', jsonString);
+      return response;
+    }
+    catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
+  
+export const isUserExist = async (ID) => {
+    const url = "/isUserExist";
+    const jsonString = JSON.stringify(ID);
+    try {
+        const response = await fetchApi(url, 'POST', jsonString);
+        return response;
+    }
+    catch (error) {
+        console.log(error);
+        throw error;
+    }
 }
 
 export const creatUser = async () => {
@@ -51,6 +77,8 @@ export const test = async () => {
     const jsonString = JSON.stringify({"ID":"mosa",});
     return await fetchApi(url , 'POST' ,(jsonString))
 }
+
+
 
 
 

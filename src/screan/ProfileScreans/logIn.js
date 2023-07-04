@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import TheHeader from '../../component/TheHeader';
 import { ScreenNames } from '../../../Storge/global';
 import LogSignInComponent from '../../component/logSignInComponent/logSignInComponent';
+import { getUserByID } from '../../res/API';
 
 
 const LogIn =props=>{
@@ -112,10 +113,64 @@ const LogIn =props=>{
         }
     }
 
+    const checkpassword=(getedUser)=>{
+        // console.log(getedUser);
+        if (getedUser.password==user.userPassword.text) {
+            User.name=user.userID.text
+            User.password=user.userPassword.text
+            User.logged=true
+            User. mail = getedUser.mail
+            User.image = getedUser.image
+            User.imageBackground = getedUser.imageBackground
+            User.list=getedUser.list
+            
+            AsyncStorage.setItem(User.name, JSON.stringify(User));
+            setAlert("")
+            props.navigation.navigate(ScreenNames.Loading)
+        }else{
+            setForget(foegetPassword+1)
+            if (user.userPassword.text.length>7) {
+                setAlert("password is not true")
+            }else{
+                setAlert("password length should be at least 8")
+            }
+            if(foegetPassword>5){
+                setAlert(getedUser.password)
+            }
+        }
+    }
+
+    const logInCondition=()=>{
+        if(user.userID.text.includes(" ")){
+            setAlert("user should not includes spaces\" \"")
+            return false
+        }
+        else if(user.userID.text.length<4){
+            setAlert("user length should be at least 4")
+            return false
+        }
+        else{
+            return true
+        }
+    }
+
     const logIn=()=>{
         //fund user
         //check pass
         //log in
+        if(logInCondition()){
+            let userID={ID:user.userID.text}
+            getUserByID(userID)
+            .then((res) => {
+                if (res.message==="User not found") {
+                    setAlert(res.message)
+                }else{
+                    setAlert("")
+                    // console.log(res);
+                    checkpassword(res.message)
+                }
+            })
+        }
     }
 
     const handilingfoegetPassword=()=>{
@@ -130,7 +185,7 @@ const LogIn =props=>{
             <LogSignInComponent
                 titleName={'Log In'}
                 alertCondition={alertCondition}
-                LogSignInButton={handilingLogin}
+                LogSignInButton={logIn}
                 user={user}
                 foegetPassword={foegetPassword}
                 handilingfoegetPassword={handilingfoegetPassword}

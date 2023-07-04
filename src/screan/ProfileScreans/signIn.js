@@ -6,7 +6,7 @@ import TheHeader from '../../component/TheHeader';
 import { ScreenNames,} from '../../../Storge/global';
 import LogSignInComponent from '../../component/logSignInComponent/logSignInComponent';
 import { mailCondition, passwordCondition, userIDCondition, userNameCondition,} from '../../userCoditions';
-import { creatNewUser, creatUser } from '../../res/API';
+import { creatNewUser, creatUser, isUserExist } from '../../res/API';
 // import { UserCondition } from '../../userCoditions';
 
 const SignIn =props=>{
@@ -22,8 +22,21 @@ const SignIn =props=>{
         userPassword:{text:'',validation:false},
     })
     const [users, setUsers] = useState(false);
+    const [canCreatUser, setCanCreatUser] = useState(false);
 
-
+    const canCreat =()=>isUserExist({"ID":user.userID.text}).then((res)=>{
+        console.log(!res.message);
+        setCanCreatUser(!res.message)
+        return !res.message
+    })
+    const handelcanCreat=()=>{
+        canCreat().then((res)=>{
+            if(!res){
+                user.userID.validation=false
+                setAlert('Another user with this ID already exists')
+            }
+        })
+    }
     const restorUsers = async () => {
         try {
             let users = await AsyncStorage.getAllKeys();
@@ -35,56 +48,13 @@ const SignIn =props=>{
             throw error;
         }
     };
-
-    useEffect(() => {
-       
+    useEffect(() => {     
+        // console.log("change");
+        handelcanCreat()
         restorUsers()
-        console.log(users);
-    }, []);
-
-    //users.includes(user.userName[0])
-      
-
-    // const userCondition = () => {
-    //     if (user.mail[0].length === 0 && user.userName[0].length === 0 && user.password[0].length === 0) {
-    //         setAlert('Please enter data');
-    //         return false;
-    //     }
-
-    //     if (user.mail[0].includes(' ')) {
-    //         setAlert('Mail should not include spaces');
-    //         return false;
-    //     }
+        return
+    }, [user.userID.text]);
         
-    //     if (!user.mail[0].includes('@')) {
-    //         setAlert('Mail should include @');
-    //         return false;
-    //     }
-        
-    //     if (!user.mail[0].includes('.com')) {
-    //         setAlert('Mail should include .com');
-    //         return false;
-    //     }
-        
-    //     if (user.userName[0].includes(' ')) {
-    //         setAlert('Username should not include spaces');
-    //         return false;
-    //     }
-        
-    //     if (user.userName[0].length < 4) {
-    //         setAlert('Username length should be at least 4');
-    //         return false;
-    //     }
-        
-    //     if (user.password[0].length < 8) {
-    //         setAlert('Password length should be at least 8');
-    //         return false;
-    //     }
-        
-    //     setAlert('');
-    //     return true;
-    // };
-    
     const userCondition = ()=>{
         user.userID.validation?user.userPassword.validation=passwordCondition(user,setAlert):null
         user.userName.validation?user.userID.validation=userIDCondition(user,users,setAlert,):null
@@ -117,16 +87,19 @@ const SignIn =props=>{
         if (userCondition()) {
             // console.log(user);
             let creatUser={
-                ID: user.userID.text,//m@m.mm
-                mail: user.mail.text,//m
-                password:user.userPassword.text,//mosa
-                name:user.userName.text,//123123123
+                ID: user.userID.text,
+                mail: user.mail.text,
+                password:user.userPassword.text,
+                name:user.userName.text,
+                image :image,
+                imageBackground : imageBackground,
             }
             creatNewUser(JSON.stringify(creatUser))
             .then((res) => {
 
                 if (res.message==="User Exist") {
-                    setAlert(res.message)
+                    user.userID.validation=false
+                    setAlert('Another user with this ID already exists')
                 }else{
                     signIn()
                 }

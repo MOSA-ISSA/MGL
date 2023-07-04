@@ -25,7 +25,7 @@ import React, { useState } from 'react';
                         if(!users.includes(user.userID['text'])){
                         // onErr('')
                         return true
-                        }else{onErr?onErr('Another user with this name already exists'):null} 
+                        }else{onErr?onErr('Another user with this ID already exists'):null} 
                     }else{onErr?onErr('userID length should be at least 4'):null} 
                 }else{onErr?onErr('userID should not include spaces'):null} 
             }else{onErr?onErr('Please enter userID'):null}
