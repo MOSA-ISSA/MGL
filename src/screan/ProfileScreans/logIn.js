@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import TheHeader from '../../component/TheHeader';
 import { ScreenNames } from '../../../Storge/global';
 import LogSignInComponent from '../../component/logSignInComponent/logSignInComponent';
-import { getUserByID } from '../../res/API';
+import { getUserByID } from '../../res/UserAPI';
 
 
 const LogIn =props=>{

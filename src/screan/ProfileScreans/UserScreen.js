@@ -8,7 +8,7 @@ import UserScreenInfoInput from '../../component/UserScreenComponent/UserScreenI
 import { ScreenNames } from '../../../Storge/global';
 import TheButton from '../../component/TheButton';
 import UserScreenFace from '../../component/UserScreenComponent/UserScreenFace';
-import { deleteUserByID } from '../../res/API';
+import { deleteUserByID } from '../../res/UserAPI';
 
 const UserScreen = props => {
   

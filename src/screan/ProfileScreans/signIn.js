@@ -6,7 +6,7 @@ import TheHeader from '../../component/TheHeader';
 import { ScreenNames,} from '../../../Storge/global';
 import LogSignInComponent from '../../component/logSignInComponent/logSignInComponent';
 import { mailCondition, passwordCondition, userIDCondition, userNameCondition,} from '../../userCoditions';
-import { creatNewUser, creatUser, isUserExist } from '../../res/API';
+import { creatNewUser, creatUser, isUserExist } from '../../res/UserAPI';
 // import { UserCondition } from '../../userCoditions';
 
 const SignIn =props=>{
