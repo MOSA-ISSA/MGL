@@ -58,7 +58,24 @@ export const deleteUserByID = async (ID) => {
         throw error;
     }
 };
-  
+
+export const updateUserByID = async (ID,update) => {
+    const url = "/updateUserByID";
+    const req = {
+        "userID":ID,
+        "updatedUser":{...update}
+    }
+    const jsonString = JSON.stringify(req);
+    try {
+      const response = await fetchApi(url, 'PUT', jsonString);
+      return response;
+    }
+    catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
+
 export const isUserExist = async (ID) => {
     const url = "/isUserExist";
     const jsonString = JSON.stringify(ID);
@@ -71,6 +88,12 @@ export const isUserExist = async (ID) => {
         throw error;
     }
 }
+
+export const canCreat =(ID)=>isUserExist(ID).then((res)=>{
+    console.log(!res.message);
+    setCanCreatUser(!res.message)
+    return !res.message
+})
 
 export const creatUser = async () => {
     const url = "/creatNewUser";

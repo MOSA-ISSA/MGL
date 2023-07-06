@@ -61,6 +61,13 @@ const UserScreen = props => {
         type:'mail',
         value:User.mail,
       },
+      userID:
+      {
+        keyboardType:"default",
+        placeholder:"userID",
+        type:'ID',
+        value:User.ID,
+      },
       userName:
       {
         keyboardType:"default",
@@ -76,7 +83,7 @@ const UserScreen = props => {
         value:User.password,
       }
     }
-    const inputsParams =[params.userName,params.mail,params.userPassword]
+    const inputsParams =[params.userID,params.userName,params.mail,params.userPassword]
     return(
       inputsParams.map((params)=>
           params?<UserScreenInfoInput

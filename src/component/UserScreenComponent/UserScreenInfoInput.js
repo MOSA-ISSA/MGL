@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import TheContext from '../../../Storge/thisContext';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import { ScreenNames } from '../../../Storge/global';
+import { canCreat, updateUserByID } from '../../res/API';
 
 
 const UserScreenInfoInput=({type,value,keyboardType,placeholder,})=>{
@@ -16,7 +17,9 @@ const UserScreenInfoInput=({type,value,keyboardType,placeholder,})=>{
     const UserCondition =()=>{
         if (type=='password'&&changingText.length>7) {
           return true
-        }if (type=='name'&&changingText.length>3&&!changingText.includes(" ")) {
+        }if (type=='ID'&&changingText.length>3&&!changingText.includes(" ")) {
+          return true
+        }if (type=='name'&&changingText.length>0) {
           return true
         }if (type=='mail'){
             let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
@@ -29,35 +32,39 @@ const UserScreenInfoInput=({type,value,keyboardType,placeholder,})=>{
       }
 
     const UplodChanges = async() =>{// UplodChanges
-        AsyncStorage.setItem(User.name, JSON.stringify(User));
+        AsyncStorage.setItem(User.ID, JSON.stringify(User));
+        updateUserByID(User.ID,User)
     }
 
-    const ChangingUserNameAndChangingTheKey =async(newName)=>{
+    const ChangingUserNameAndChangingTheKey =async(newID)=>{////////////
         let users = await AsyncStorage.getAllKeys()
-        if (!users.includes(newName)) {
-          User.logged=false
-          UplodChanges()
-          let newUser ={...JSON.parse(await AsyncStorage.getItem(User.name))}
-          newUser.name=newName;
-          AsyncStorage.removeItem(User.name);
-          AsyncStorage.setItem(newUser.name, JSON.stringify(newUser));
-            User.mail=''
-            User.name= '',
-            User.password= '',
-            User.logged= false,
-            User.image = image,
-            User.imageBackground = imageBackground,
-            User.list={played:[],planToPlay:[],playing:[],trash:[],}
-          navigation.dispatch(
-            CommonActions.reset({
-              index: 0,
-              routes: [{ name: ScreenNames.Loading }]
-            })
-          )
-          //AsyncStorage.removeItem
-        }else{
-          Alerts.alertNameIncludes()
-        }
+        canCreat({"ID":newID}).then(async (v)=>{
+          if (v) {
+            User.logged=false
+            UplodChanges()
+            let newUser ={...JSON.parse(await AsyncStorage.getItem(User.ID))}
+            newUser.ID=newID;
+            AsyncStorage.removeItem(User.ID);
+            AsyncStorage.setItem(newUser.ID, JSON.stringify(newUser));
+              User.mail=''
+              User.name= '',
+              User.password= '',
+              User.logged= false,
+              User.image = image,
+              User.imageBackground = imageBackground,
+              User.list={played:[],planToPlay:[],playing:[],trash:[],}
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [{ name: ScreenNames.Loading }]
+              })
+            )
+            //AsyncStorage.removeItem
+          }else{
+            Alerts.alertNameIncludes()
+          }
+        })
+        
       }
 
     const Alerts={
@@ -79,7 +86,7 @@ const UserScreenInfoInput=({type,value,keyboardType,placeholder,})=>{
     }
 
     const onPressedit=()=>{
-        if (type=='name') {
+        if (type=='ID') {
             !edit?Alerts.alertchangingName():null
             edit&&UserCondition(changingText)? ChangingUserNameAndChangingTheKey(changingText):setChangedText(value?value:'')
             setedit(false)
