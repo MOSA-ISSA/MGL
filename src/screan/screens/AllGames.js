@@ -6,14 +6,18 @@ import RenderGameCard from '../../component/RenderGameCard';
 import SearchBar from '../../component/SearchBar';
 import SortModal from '../../component/SortModal';
 import SortTypeButtonContent from '../../component/SortTypeButtonContent';
-
-import { checkRespond, getAllGames } from '../../res/API';
+import { checkRespond} from '../../res/API';
+import { getAllGamesData, getAllGamesName, getGameByName, getGamesDataROWG } from '../../res/GamesAPI';
+import GamesCard from '../../component/GamesCard';
+import GamesCardServer from '../../component/GamesCardServer';
+import RenderGameCardServer from '../../component/RenderGameCardServer';
 
 
 const AllGames = () => {
   console.log('AllGames');
 
   const BackUpGame = [...Game]
+  const [ServerGames, setServerGames] = useState({})
   const [games, setGames] = useState([...Game])
   const [type, setType] = useState("")
   const [SortModalVisible, setSortModalVisible] = useState(false)
@@ -118,7 +122,7 @@ const AllGames = () => {
   }//params
 
   // const getAllGamesFromApi = () => {
-  //   getAllGames()
+  //   getAllGamesName()
   //     .then((res) => {
   //       console.log("all games: ", res.games);
   //     })
@@ -131,7 +135,27 @@ const AllGames = () => {
         console.log(res);
       })
   };
-  Respond()
+  // Respond()
+
+  // const getGameByNameFromAPI=()=>{
+  //   getGameByName({"gameName":"BioShock"})
+  //     .then((res)=>{
+  //       console.log(res.GameData.name);
+  //       setServerGames(res.GameData)
+  //     })
+  // }
+
+  const getAllGamesDataFromAPI =()=>{
+    getAllGamesData().then((res)=>{
+      console.log(res.games[0].name);
+      setServerGames({...res.games})
+    })
+  }
+
+  // useEffect(() => {
+  //   getAllGamesDataFromAPI()
+  //   getTheGamesDataROWG()
+  // }, []);
 
   return (
     <View style={styles.screen}>
@@ -139,6 +163,8 @@ const AllGames = () => {
       <SearchBar {...params.SearchBar}/>
 
       <RenderGameCard games={games} />
+      {/* <GamesCardServer item={ServerGames}/> */}
+      {/* <RenderGameCardServer games={ServerGames}/> */}
 
       <TheModal setModalVisible={SortModalVisible}>
         <SortModal {...params.sortModal} />

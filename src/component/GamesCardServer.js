@@ -3,8 +3,9 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {globalHW,} from '../../Storge/global';
 import AddGametoListButton from './AddGametoListButton';
 
-const GamesCard = (props) => {
+const GamesCardServer = (props) => {
   const nullImage="https://cdn.iconscout.com/icon/premium/png-128-thumb/controll-360010.png"
+  // console.log(props.item);
 
   return (
     <TouchableOpacity style={styles.GamesCardContiner}
@@ -12,14 +13,14 @@ const GamesCard = (props) => {
 
       <View style={styles.ImageContiner}>
         <Image
-          source={{ uri: props?.item?.image?props.item.image:nullImage }}
+          source={{ uri: props?.item?.background_image?props.item.background_image:nullImage }}
           style={styles.ImageSt} />
       </View>
 
       {props.HideUnderCard?null:
         <View style={styles.TextContiner}>
           
-          <Text style={styles.TextSt}>{props.item?.gameShortName?props.item.gameShortName:"gameNmae"}</Text>
+          <Text style={styles.TextSt}>{props.item?.name?props.item.name:"gameNmae"}</Text>
           <AddGametoListButton 
             item={props.item} 
             buttonStyle={styles.AddOrRemoveButton}
@@ -73,4 +74,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default GamesCard
+export default GamesCardServer
