@@ -9,7 +9,8 @@ const GamesCardServer = (props) => {
 
   return (
     <TouchableOpacity style={styles.GamesCardContiner}
-      onPress={props.onPress}>
+      // onPress={props.onPress}
+      >
 
       <View style={styles.ImageContiner}>
         <Image

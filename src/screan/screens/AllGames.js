@@ -11,6 +11,7 @@ import { getAllGamesData, getAllGamesName, getGameByName, getGamesDataROWG } fro
 import GamesCard from '../../component/GamesCard';
 import GamesCardServer from '../../component/GamesCardServer';
 import RenderGameCardServer from '../../component/RenderGameCardServer';
+import RenderGameCardRAWG from '../../component/RenderGameCardRAWG';
 
 
 const AllGames = () => {
@@ -135,7 +136,7 @@ const AllGames = () => {
         console.log(res);
       })
   };
-  // Respond()
+  Respond()
 
   // const getGameByNameFromAPI=()=>{
   //   getGameByName({"gameName":"BioShock"})
@@ -162,7 +163,8 @@ const AllGames = () => {
 
       <SearchBar {...params.SearchBar}/>
 
-      <RenderGameCard games={games} />
+      {/* <RenderGameCard games={games} /> */}
+      <RenderGameCardRAWG/>
       {/* <GamesCardServer item={ServerGames}/> */}
       {/* <RenderGameCardServer games={ServerGames}/> */}
 

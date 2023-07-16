@@ -6,13 +6,13 @@ export const fetchApi = async (route, method, body) => {
     return await fetch(url, {
         method: method || 'GET',
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json', 
         },
         body: body,
 
     }).then(res => res.json())
     .catch((error) => {
-        console.error("Error", error.message);
+        console.error("fetch Error", error.message);
     });
 }
 

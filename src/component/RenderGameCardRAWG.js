@@ -20,10 +20,10 @@ const RenderGameCardRAWG = ({games}) => {
         //"https://api.rawg.io/api/games?key=7507789e93524533820c1382fd9b7c69&page=1&page_size=40"
         const url = "https://api.rawg.io/api/games?key=7507789e93524533820c1382fd9b7c69&page="+page
         // const Page=page
-        return await fetch(url,{method:'GET',body: null,}
-        ).then(res => res.json())
+        return await fetch(url )
+        .then(res => res.json())
       }catch(e){
-          console.error("e");
+          console.error("e" , e);
       }
     }
 
@@ -78,7 +78,7 @@ const RenderGameCardRAWG = ({games}) => {
           keyExtractor={(item, index) => index.toString()}
           onEndReached={getMoreGameFromRAWG} // Call fetchData when reaching the end of the list
           onEndReachedThreshold={0.1} // Adjust the threshold as needed
-          ListFooterComponent={isLoading && <ActivityIndicator/>} // Show a loading indicator at the bottom
+          ListFooterComponent={isLoading ? <ActivityIndicator/> : <View style={{backgroundColor:'red' , height:10 , width:'100%'}}/>} // Show a loading indicator at the bottom
           renderItem={({item})=>(
           <RenderItem item={item}/>
           )}
