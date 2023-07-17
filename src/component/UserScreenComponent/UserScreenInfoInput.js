@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import TheContext from '../../../Storge/thisContext';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import { ScreenNames } from '../../../Storge/global';
-import { canCreat, updateUserByID } from '../../res/API';
+import { canCreat, updateUserByID } from '../../res/UserAPI';
 
 
 const UserScreenInfoInput=({type,value,keyboardType,placeholder,})=>{
@@ -13,6 +13,10 @@ const UserScreenInfoInput=({type,value,keyboardType,placeholder,})=>{
     const {User,image,imageBackground} = useContext(TheContext)
     const [edit, setedit] = useState(false)
     const [changingText, setChangedText] = useState(value?value:'text');
+    const [oldID, setOldID] = useState(User.ID)
+
+    // console.log(oldID);
+
 
     const UserCondition =()=>{
         if (type=='password'&&changingText.length>7) {
@@ -29,74 +33,42 @@ const UserScreenInfoInput=({type,value,keyboardType,placeholder,})=>{
         }else{
           false
         }
-      }
+    }
 
     const UplodChanges = async() =>{// UplodChanges
-        AsyncStorage.setItem(User.ID, JSON.stringify(User));
-        updateUserByID(User.ID,User)
-    }
-
-    const ChangingUserNameAndChangingTheKey =async(newID)=>{////////////
-        let users = await AsyncStorage.getAllKeys()
-        canCreat({"ID":newID}).then(async (v)=>{
-          if (v) {
-            User.logged=false
-            UplodChanges()
-            let newUser ={...JSON.parse(await AsyncStorage.getItem(User.ID))}
-            newUser.ID=newID;
-            AsyncStorage.removeItem(User.ID);
-            AsyncStorage.setItem(newUser.ID, JSON.stringify(newUser));
-              User.mail=''
-              User.name= '',
-              User.password= '',
-              User.logged= false,
-              User.image = image,
-              User.imageBackground = imageBackground,
-              User.list={played:[],planToPlay:[],playing:[],trash:[],}
-            navigation.dispatch(
-              CommonActions.reset({
-                index: 0,
-                routes: [{ name: ScreenNames.Loading }]
-              })
-            )
-            //AsyncStorage.removeItem
+      if(edit==true){// edit done
+        console.log('UplodChanges\n',User);
+        updateUserByID(oldID,User)
+        .then((res)=>{
+          console.log(res.message);
+          var trueMessage="User updated successfully"
+          if (res.message==trueMessage) {
+            AsyncStorage.setItem(User.ID, JSON.stringify(User));
+            if(oldID!=User.ID){
+              changingUserIDfromTheAsyncStorge()
+            }
           }else{
-            Alerts.alertNameIncludes()
+            User.ID=oldID
+            Alert.alert('thare anther user in this userName', '!', [
+              {
+                text: 'ok',
+              },
+            ])
           }
         })
-        
       }
-
-    const Alerts={
-        alertchangingName: ()=>
-        Alert.alert('changing name will cuse logging out', '!', [
-          {
-            text: 'Cancel', onPress: () =>{setedit(false)},
-          },
-          {
-            text: 'OK', onPress: () =>{setedit(true)}
-          },
-        ]),
-        alertNameIncludes: ()=>
-        Alert.alert('thare anther user in this userName', '!', [
-          {
-            text: 'ok',
-          },
-        ]),
     }
 
+    const changingUserIDfromTheAsyncStorge =async()=>{////////////
+            AsyncStorage.removeItem(oldID);
+            AsyncStorage.setItem(User.ID, JSON.stringify(User));
+      }
+
     const onPressedit=()=>{
-        if (type=='ID') {
-            !edit?Alerts.alertchangingName():null
-            edit&&UserCondition(changingText)? ChangingUserNameAndChangingTheKey(changingText):setChangedText(value?value:'')
-            setedit(false)
-            // ChangingUserNameAndChangingTheKey(changingText)
-            return
-        }
         if (!edit||UserCondition(changingText)) {
             User[type]=changingText
-            UplodChanges()
             setedit(!edit)
+            UplodChanges()
         } else {
             setChangedText(value?value:'')
             setedit(!edit)

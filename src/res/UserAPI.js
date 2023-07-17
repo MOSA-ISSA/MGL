@@ -65,7 +65,7 @@ export const isUserExist = async (ID) => {
 
 export const canCreat =(ID)=>isUserExist(ID).then((res)=>{
     console.log(!res.message);
-    setCanCreatUser(!res.message)
+    // setCanCreatUser(!res.message)
     return !res.message
 })
 

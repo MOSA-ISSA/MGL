@@ -17,7 +17,7 @@ const UserScreen = props => {
   const navigation = useNavigation();
   const {User,image,imageBackground} = useContext(TheContext)
 
-  console.log(User);
+  // console.log(User);
 
   const logout = async ()=>{
       User.logged= false,

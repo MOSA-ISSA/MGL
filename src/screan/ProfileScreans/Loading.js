@@ -22,7 +22,7 @@ const Loading = props => {
       users.forEach(async userID=> {
         let user = await AsyncStorage.getItem(userID)
         user = JSON.parse(user);// cast from string to data
-        //console.log({...user});
+        console.log({...user});
         i++;
         console.log(i);
       if (user.logged) {
@@ -35,7 +35,7 @@ const Loading = props => {
         User.image = user.image,
         User.imageBackground = user.imageBackground,
         User.list=user.list
-        props.navigation.navigate('UserScreen',{ key: Math.random()})
+        props.navigation.navigate('UserScreen')
         //console.log("111111");
       }
       if (i==users.length&&j==users.length) {
@@ -43,6 +43,14 @@ const Loading = props => {
         //console.log("2");
       }
       })
+    }else{
+      props.navigation.navigate('LogIn')
+    }
+  }
+
+  const loadData=()=>{
+    if (User.logged) {
+      props.navigation.navigate('UserScreen')
     }else{
       props.navigation.navigate('LogIn')
     }
@@ -57,7 +65,7 @@ const Loading = props => {
           <Animatable.Image source={require('../../asets/images/reloud.png')}
           style={{height:150 ,width:150, borderRadius:100}}
           //onAnimationEnd={restorData}
-          onLoad={()=>[restorData(),renderAll()]}
+          onLoad={()=>[loadData(),renderAll()]}
           animation={"rotate"}
           easing="linear" 
           iterationCount={'infinite'}/>

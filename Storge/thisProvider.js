@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 
 import TheContext from './thisContext';
+import { images } from '../src/asets/images/exportImages';
 
 const TheProvider = props => {
 
@@ -22,8 +23,8 @@ const TheProvider = props => {
     password: '',
     logged: false,
     mail : '',
-    image :image,
-    imageBackground : imageBackground,
+    image :images.ID,
+    imageBackground : images.backgraund,
     list:{
       played:[],
       planToPlay:[],

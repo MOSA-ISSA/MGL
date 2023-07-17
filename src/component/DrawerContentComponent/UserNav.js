@@ -6,6 +6,7 @@ import TheContext from '../../../Storge/thisContext';
 const UserNav = ({navigate}) => {
 
     const {User} = useContext(TheContext)
+    const imgID=`data:${User.image};base64,${User.image}`
 
     return (
         <TouchableOpacity onPress={()=>{navigate(ScreenNames.Loading)}}>
@@ -14,7 +15,7 @@ const UserNav = ({navigate}) => {
             <View style={styles.UserImage}>
                 <View style={styles.userNav}>
                     <Image
-                    source={{uri: User.image}}
+                    source={{uri: imgID}}
                     style={styles.img}/>
                 </View>
             </View>
