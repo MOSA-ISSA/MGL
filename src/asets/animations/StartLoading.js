@@ -22,6 +22,7 @@ const StartLoading = props => {
             let user = await AsyncStorage.getItem(username)
             user = JSON.parse(user);// cast from string to data
             if (user.logged) {
+              User.ID=user.ID
               User.mail=user.mail
               User.name= user.name,
               User.password= user.password,

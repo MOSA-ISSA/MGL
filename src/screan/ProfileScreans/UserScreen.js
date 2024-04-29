@@ -1,4 +1,4 @@
-import React, {useContext } from 'react';
+import React, {useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TheContext from '../../../Storge/thisContext';
@@ -17,7 +17,7 @@ const UserScreen = props => {
   const navigation = useNavigation();
   const {User,image,imageBackground} = useContext(TheContext)
 
-  // console.log(User);
+  console.log(User.ID);
 
   const logout = async ()=>{
       User.logged= false,
@@ -124,6 +124,16 @@ const UserScreen = props => {
       </View>
     )
   }
+
+  useEffect(() => {
+    const test =async ()=>{
+      let x = await AsyncStorage.getItem("mosa");
+      let y = JSON.parse(x)
+      console.log(y.ID);
+      console.log(User.ID);
+    }
+    test()
+  }, []);
 
   {/*/////////////////// View ///////////////////*/}
   return (

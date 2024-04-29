@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {View, StyleSheet, Image} from 'react-native';
+import {View, StyleSheet, Image, ActivityIndicator} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TheContext from '../../../Storge/thisContext';
+import { useNavigation } from '@react-navigation/native';
 
 
 
 const Loading = props => {
   // AsyncStorage.clear();
-
+  let navigation=useNavigation()
   const {User,setAdmin,admin} = useContext(TheContext)
+  const [Load, setLoad] = useState(0);
 
   console.log('Loading');
 
@@ -50,7 +52,7 @@ const Loading = props => {
 
   const loadData=()=>{
     if (User.logged) {
-      props.navigation.navigate('UserScreen')
+      navigation.navigate('UserScreen')
     }else{
       props.navigation.navigate('LogIn')
     }
@@ -58,14 +60,25 @@ const Loading = props => {
 
   const renderAll=()=>{
     setAdmin(((admin+1)%3))
+    setLoad(((admin+1)%3))
   }
+
+
+  useEffect(() => {
+    setTimeout(() => {
+      console.log("test");
+      loadData()
+    }, 500);
+  }, [Load]);
+// loadData(),
 
     return (
         <View style={{flex:1, alignItems:'center', justifyContent:'center', backgroundColor:"#199",}}>
+          <ActivityIndicator size="large" color="#454545" onLayout={()=>renderAll()}/>
           <Animatable.Image source={require('../../asets/images/reloud.png')}
-          style={{height:150 ,width:150, borderRadius:100}}
+          style={{height:0 ,width:0, borderRadius:100}}
           //onAnimationEnd={restorData}
-          onLoad={()=>[loadData(),renderAll()]}
+          onLoad={()=>[renderAll()]}
           animation={"rotate"}
           easing="linear" 
           iterationCount={'infinite'}/>

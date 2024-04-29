@@ -148,14 +148,14 @@ const AllGames = () => {
 
   const getAllGamesDataFromAPI =()=>{
     getAllGamesData().then((res)=>{
-      console.log(res.games[0].name);
-      setServerGames({...res.games})
+      console.log(res.games);
+      // setServerGames({...res.games})
     })
   }
 
   // useEffect(() => {
-  //   getAllGamesDataFromAPI()
-  //   getTheGamesDataROWG()
+  //   // getAllGamesDataFromAPI()
+  //   // getTheGamesDataROWG()
   // }, []);
 
   return (
@@ -163,8 +163,8 @@ const AllGames = () => {
 
       <SearchBar {...params.SearchBar}/>
 
-      {/* <RenderGameCard games={games} /> */}
-      <RenderGameCardRAWG/>
+      <RenderGameCard games={games} />
+      {/* <RenderGameCardRAWG/> */}
       {/* <GamesCardServer item={ServerGames}/> */}
       {/* <RenderGameCardServer games={ServerGames}/> */}
 

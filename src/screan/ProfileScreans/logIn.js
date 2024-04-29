@@ -113,10 +113,10 @@ const LogIn =props=>{
         }
     }
 
-    const checkpassword=(getedUser)=>{
+    const checkPassword=(getedUser)=>{
         // console.log(getedUser);
         if (getedUser.password==user.userPassword.text) {
-            User.ID=user.userID.text
+            User.ID=getedUser.ID
             User.name=getedUser.name
             User.password=user.userPassword.text
             User.logged=true
@@ -163,13 +163,16 @@ const LogIn =props=>{
             let userID={ID:user.userID.text}
             getUserByID(userID)
             .then((res) => {
+                console.log(res.data[0].name);
                 if (res.message==="User not found") {
                     setAlert(res.message)
                 }else{
                     setAlert("")
                     // console.log(res);
-                    checkpassword(res.message)
+                    checkPassword(res.data[0])
                 }
+            }).catch(e=>{
+                console.log(e.message);
             })
         }
     }
