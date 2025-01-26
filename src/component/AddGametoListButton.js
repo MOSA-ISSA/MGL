@@ -105,13 +105,14 @@ const AddGametoListButton = ({ item, buttonStyle, buttonNameStyle,}) => {
       console.log(itemInfo);
       if (itemInfo) {
         User.list[itemInfo.listName].splice(itemInfo.index, 1)
+        setUser({...User})
         AsyncStorage.setItem(User.name, JSON.stringify(User));
         setModalVisible(false)
         console.log('removed - ' + item.gameName);
       }
-      if (needToRender) {
-        needToRender(true)
-      }
+      // if (needToRender) {
+      //   needToRender(true)
+      // }
     }
 
     const RenderOptionsButton = () => (

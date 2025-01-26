@@ -68,7 +68,7 @@ const Loading = props => {
     setTimeout(() => {
       console.log("test");
       loadData()
-    }, 500);
+    }, 250);
   }, [Load]);
 // loadData(),
 
