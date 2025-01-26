@@ -7,6 +7,7 @@ import {useNavigation} from '@react-navigation/native';
 import { ScreenNames } from '../../../Storge/global';
 
 const StartLoading = props => {
+  // AsyncStorage.clear();
 
   const navigation = useNavigation();
   const {User} = useContext(TheContext)

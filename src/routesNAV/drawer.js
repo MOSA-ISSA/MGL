@@ -9,12 +9,12 @@ import { ScreenNames } from '../../Storge/global';
 
 const Drawer = createDrawerNavigator();
 
-const DrawerNav=()=> {
+const DrawerNav = () => {
 
-  const screenOptions ={
-    drawerStyle:{
-      borderTopEndRadius:15,
-      borderBottomEndRadius:15,
+  const screenOptions = {
+    drawerStyle: {
+      borderTopEndRadius: 15,
+      borderBottomEndRadius: 15,
     },
     headerStyle: {
       backgroundColor: '#199',
@@ -22,17 +22,17 @@ const DrawerNav=()=> {
   }
 
   return (
-    
+
     <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}
-    screenOptions={screenOptions}>
+      screenOptions={screenOptions}>
 
       <Drawer.Screen name={ScreenNames.AllGames} component={AllGames} options={{}} />
       {/* <Drawer.Screen name={ScreenNames.About} component={About} /> */}
 
-          <Drawer.Screen name={ScreenNames.Loading} component={Loading}   options={{headerShown:false}}/>
-          <Drawer.Screen name={ScreenNames.UserScreen} component={UserScreen} options={{headerShown:false,}}/>
-          <Drawer.Screen name={ScreenNames.LogIn} component={LogIn}   options={{headerShown:false,}}/>
-      
+      <Drawer.Screen name={ScreenNames.Loading} component={Loading} options={{ headerShown: false }} />
+      <Drawer.Screen name={ScreenNames.UserScreen} component={UserScreen} options={{ headerShown: false, }} />
+      <Drawer.Screen name={ScreenNames.LogIn} component={LogIn} options={{ headerShown: false, }} />
+
       {/* <Drawer.Screen name="StackNav" component={StackNav} options={{headerShown:false}}/> */}
 
     </Drawer.Navigator>
