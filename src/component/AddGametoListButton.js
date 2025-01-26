@@ -109,9 +109,9 @@ const AddGametoListButton = ({ item, buttonStyle, buttonNameStyle,}) => {
         setModalVisible(false)
         console.log('removed - ' + item.gameName);
       }
-      if (needToRender) {
-        needToRender(true)
-      }
+      // if (needToRender) {
+      //   needToRender(true)
+      // }
     }
 
     const RenderOptionsButton = () => (

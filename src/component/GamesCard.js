@@ -24,7 +24,7 @@ const GamesCard = (props) => {
             item={props.item} 
             buttonStyle={styles.AddOrRemoveButton}
             buttonNameStyle={{fontSize:15}}
-            needToRender={props.needToRender}
+            // needToRender={props.needToRender}
             />
             
         </View>
